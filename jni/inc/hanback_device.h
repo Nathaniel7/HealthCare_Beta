@@ -1,0 +1,60 @@
+#ifndef HANBACK_DEVICE_H
+#define HANBACK_DEVICE_H
+
+//const char HANBACK_START_BIT[2]	= {0x76, 0x00};
+//const char HANBACK_END_BIT[2]	= {0xF0, 0x0F};
+//const char HANBACK_BLD_PRSR[2]	= {0x11, 0x08};	// Blood Pressure
+//const char HANBACK_DIOXIDE[2]	= {0x13, 0x02};	// Co2 II
+//const char HANBACK_MONOXIDE[2]	= {0x14, 0x02};
+//const char HANBACK_DUST[2]		= {0x15, 0x02};
+//const char HANBACK_OZONE[2]		= {0x16, 0x02};
+//const char HANBACK_VOC[2]		= {0x17, 0x02};
+//const char HANBACK_THRMMTR[2]	= {0x18, 0x04};	// Z-Temp II V1.0(Thermometer)
+//const char HANBACK_WEATHER[2]	= {0x12, 0x0C};
+//const char HANBACK_NITROGEN[2]	= {0x19, 0x00};
+
+// SPO2_Pulsation(IRPPG  0x49, HEARTBEAT  0x48, BLOODSUGAR  0x53)
+//#define HANBACK_SPO2_PLSTN	 {0x49, 0x48, 0x53};
+
+#define HANBACK_START_BIT_FRONT 0x76
+#define HANBACK_START_BIT_REAR  0x00
+
+#define HANBACK_END_BIT_FRONT	 0xF0
+#define HANBACK_END_BIT_REAR     0x0F
+#define HANBACK_BLD_PRSR_FRONT   0x11	// Blood Pressure
+#define HANBACK_BLD_PRSR_REAR    0x08	// Blood Pressure
+
+#define HANBACK_DIOXIDE_FRONT 0x13
+#define HANBACK_DIOXIDE_REAR  0x02
+
+#define HANBACK_MONOXIDE_FRONT 0x14
+#define HANBACK_MONOXIDE_REAR  0x02
+
+#define HANBACK_DUST_FRONT 0x15
+#define HANBACK_DUST_REAR  0x02
+
+#define HANBACK_OZONE_FRONT 0x16
+#define HANBACK_OZONE_REAR  0x02
+
+#define HANBACK_VOC_FRONT	  0x17
+#define HANBACK_VOC_REAR   0x02
+
+#define HANBACK_THRMMTR_FRONT 0x18
+#define HANBACK_THRMMTR_REAR  0x04	// Thermometer
+
+#define HANBACK_WEATHER_FRONT 0x12
+#define HANBACK_WEATHER_REAR  0x0C
+
+#define HANBACK_NITROGEN_FRONT 0x19
+#define HANBACK_NITROGEN_REAR  0x00
+
+#define HANBACK_SPO2_PLSTN_	FRONT  0x49
+#define HANBACK_SPO2_PLSTN_	MIDDLE 0x48
+#define HANBACK_SPO2_PLSTN_	REAR   0x53
+// SPO2_Pulsation(IRPPG = 0x49, HEARTBEAT = 0x48, BLOODSUGAR = 0x53)
+
+#endif
+
+
+
+
