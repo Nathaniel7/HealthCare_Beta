@@ -7,14 +7,16 @@ void printLogcat(const char *buff, int count,char* dev_name)
 {
     int i;
     char temp[1024];
-    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "-------ReadData <%s> --------", dev_name);
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼");
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "▼ <%s> %d", dev_name, count);
 
-    for(i = 0; i < count; i++) {
-        sprintf(&temp[i], "%02X ", buff[i]);
+    for(i = 0; i < count * 3; i+=3) {
+        sprintf(&temp[i], "%02X", buff[i/3]);
+        sprintf(&temp[i+2], " ");
     }
 
-    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%s", temp);
-    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "-----------------------------");
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "▲ %s", temp);
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
 }
 
 void printHex2(const char *buff, int count,char* dev_name)
@@ -60,7 +62,7 @@ void F_readData(listNode* p)
 	    user_uart_config(p->fd, 57600, 8, 0, 1);
 
 	    //start bit가 일치 할 때 까지 계속 data를 받음
-	    for(readTotalSize = 0; readTotalSize <= p->dev_pacLen;) {
+	    for(readTotalSize = 0; readTotalSize < p->dev_pacLen;) {
 	        if((readSize = user_uart_read(p->fd, readTemp, p->dev_pacLen)) == -1) {
 	            readSize = 0;
 	            continue;
@@ -76,16 +78,14 @@ void F_readData(listNode* p)
                 readTotalSize = 0;
             }
 	    }
+        printLogcat(readBuff, readTotalSize, p->dev_name);
 
 	    //////save CURRDATA,PREVDATA///////////////////////
 	    strncat_s(p->p_buf, p->c_buf, 0, p->dev_pacLen);
 	    strncat_s(p->c_buf, readBuff, 0, p->dev_pacLen);
 	    ///////////////////////////////////////////////////
 
-        printLogcat(readBuff, readSize, p->dev_name);
-
 	    ////data/////
-	    //printHex2(readBuff, readSize, p->dev_name);
 	    F_analyzeData(p, readBuff, p->dev_pacLen);
 	    memset(readBuff, 0, sizeof(readBuff));
 
