@@ -1,6 +1,21 @@
 // <FilterData.c>
 
 #include "filterData.h"
+#include "Logcat.h"
+
+void printLogcat(const char *buff, int count,char* dev_name)
+{
+    int i;
+    char temp[1024];
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "-------ReadData <%s> --------", dev_name);
+
+    for(i = 0; i < count; i++) {
+        sprintf(&temp[i], "%02X ", buff[i]);
+    }
+
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%s", temp);
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "-----------------------------");
+}
 
 void printHex2(const char *buff, int count,char* dev_name)
 {
@@ -66,6 +81,8 @@ void F_readData(listNode* p)
 	    strncat_s(p->p_buf, p->c_buf, 0, p->dev_pacLen);
 	    strncat_s(p->c_buf, readBuff, 0, p->dev_pacLen);
 	    ///////////////////////////////////////////////////
+
+        printLogcat(readBuff, readSize, p->dev_name);
 
 	    ////data/////
 	    //printHex2(readBuff, readSize, p->dev_name);

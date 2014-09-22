@@ -2,52 +2,49 @@ package com.Nathaniel.healthcare.beta;
 
 import java.io.IOException;
 
-import android.app.Activity;
+import android.app.TabActivity;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TabHost;
 
-public class MainActivity extends Activity {
-//	Thread TTD = new Thread(new Abstraction_Thread(0));
+@SuppressWarnings("deprecation")
+public class TabViewActivity extends TabActivity {
+	Resources res;
+	static TabHost tabHost;
+	Intent intent;
+
+	//Thread TTD = new Thread(new Abstraction_Thread(0));
 	Thread TM = new Thread(new Abstraction_Thread(1));
 	Thread TF = new Thread(new Abstraction_Thread(2));
 	Thread TS = new Thread(new Abstraction_Thread(3));
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.tab_host);
+
 		try {
 			Runtime.getRuntime().exec("su");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		TTD.start();
+		
+		//		TTD.start();
 		TM.start();
 		TF.start();
-		TS.start();
-	}
+		//		TS.start();
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+		res = getResources();
+		tabHost = getTabHost();
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		switch(keyCode) {
-		case KeyEvent.KEYCODE_BACK:
-			
-			finish();
-			break;
-		}
-		
-		return super.onKeyDown(keyCode, event);
+		intent = new Intent().setClass(this, SensorViewActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("Sensors").setContent(intent));
+
+		tabHost.setCurrentTab(0);
 	}
 
 	@Override
@@ -61,14 +58,14 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	class Abstraction_Thread implements Runnable {
 		private int n = 0;
-		
+
 		public Abstraction_Thread(int num) {
 			this.n = num;
 		}
-		
+
 		public void run() {
 			switch(n) {
 			case 0:
@@ -86,5 +83,4 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
-	
 }

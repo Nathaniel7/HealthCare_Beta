@@ -4,7 +4,7 @@
    ■■■■■■■■ Use Debugging Logcat argument Instead of LOGI ■■■■■■■■
         __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "", );
 
-        ex) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", num);
+    ex) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", num);
    ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 static int i = 100;

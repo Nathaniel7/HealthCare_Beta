@@ -9,14 +9,6 @@ void D_HBACK_Thermometer(listNode* p)//D_printRawData(p, CURRDATA); , D_printUse
     int curr_data2=p->c_analyzeData[1];
     int i;
 
-    FILE *f;
-
-    LOGI(" >> Thermometer File Create");
-    f=fopen("/sdcard/111111111111.txt", "wb");
-
-    if(f != NULL)
-        LOGI(" >> File Create Success");
-
     //////////////////////////////////
     printf("\n\n---------------< %s > %d\n", p->dev_name, p->fd);
     D_printRawData(p, PREVDATA);
