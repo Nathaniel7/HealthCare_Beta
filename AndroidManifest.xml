@@ -27,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name="SensorViewActivity"></activity>
+        <activity android:name="GraphViewActivity"></activity>
     </application>
 
 </manifest>

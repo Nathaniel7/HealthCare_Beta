@@ -3,11 +3,12 @@ package com.Nathaniel.healthcare.beta;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class SensorViewActivity extends Activity {	
+public class GraphViewActivity extends Activity {
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.sensor_view);
+		setContentView(R.layout.graph_view);
 	}
 }

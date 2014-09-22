@@ -16,7 +16,7 @@ public class TabViewActivity extends TabActivity {
 	static TabHost tabHost;
 	Intent intent;
 
-	//Thread TTD = new Thread(new Abstraction_Thread(0));
+	Thread TTD = new Thread(new Abstraction_Thread(0));
 	Thread TM = new Thread(new Abstraction_Thread(1));
 	Thread TF = new Thread(new Abstraction_Thread(2));
 	Thread TS = new Thread(new Abstraction_Thread(3));
@@ -43,6 +43,9 @@ public class TabViewActivity extends TabActivity {
 
 		intent = new Intent().setClass(this, SensorViewActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("Sensors").setContent(intent));
+		
+		intent = new Intent().setClass(this, GraphViewActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("Graph").setContent(intent));
 
 		tabHost.setCurrentTab(0);
 	}
