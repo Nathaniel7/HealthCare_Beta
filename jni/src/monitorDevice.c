@@ -1,4 +1,6 @@
 #include "monitorDevice.h"
+#include "Logcat.h"
+#include <string.h>
 
 // Device Monitoring Function
 int M_connectDevice(listNode_h *N)
@@ -10,31 +12,38 @@ int M_connectDevice(listNode_h *N)
 			"/dev/ttyUSB5", "/dev/ttyUSB6", "/dev/ttyUSB7", "/dev/ttyUSB8", "/dev/ttyUSB9" };
 
 	printf("\n>> Connect Device\n");
+
+    // LOGI("  3. Monitor Devices");
 	for(i = 0; i < MAX_DEV_NUM; i++){	// Device Search and connect
 		int read_size;
 
+        // LOGI("   4. Monitor Devices");
 		//*Check Device exist
 		if(access(USB_serial[i], R_OK & W_OK) == 0) {
-			// make Linked List
-			M_makeLinkedList(N, USB_serial[i]);
-			// check not yet open Device
-			if(N->tail->fd == 0) {
-				M_openDevice(N);
-			}
-			if(N->tail->fd != -1 && !strcmp(N->tail->dev_name, "")) {
 
-			    // analysing sensor packet data
-			    if(M_checkDeviceFingerprint(N->tail)){
-			        // just display device node info
-			        M_printDeviceInfo(*N->tail);
-			       user_uart_close(N->tail->fd);
+            // LOGI("    5. Monitor Devices");
+		    // make Linked List
+		    M_makeLinkedList(N, USB_serial[i]);
+		    // check not yet open Device
+		    if(N->tail->fd == 0) {
+                //LOGI("        9. Monitor open device");
+		        M_openDevice(N);
+		    }
+		    if(N->tail->fd != -1 && !strcmp(N->tail->dev_name, "")) {
+		        // LOGI("         10. Monitor fd, name check");
+                // analysing sensor packet data
+		        if(M_checkDeviceFingerprint(N->tail)){
 
-			       N->tail->dev_monitor_status = 1;
-			        return 1;
-			    }
-			    else
-			    {
-			    	N->tail->dev_monitor_status = 0;
+		            // just display device node info
+		            M_printDeviceInfo(*N->tail);
+		            user_uart_close(N->tail->fd);
+
+		            N->tail->dev_monitor_status = 1;
+		            return 1;
+		        }
+		        else
+		        {
+		            N->tail->dev_monitor_status = 0;
 			        return 0;
 			    }
 			}
@@ -45,20 +54,42 @@ int M_connectDevice(listNode_h *N)
 	return 0;
 }
 
-void M_makeLinkedList(listNode_h *N, char *dev_path)
+void M_makeLinkedList(listNode_h *N, const char *dev_path)
 {
 	//	printf(">> START Make Linked List\n");
-	if(N->head == NULL)
+	if(N->head == NULL) {
+
+//	    if(strcmp(dev_path, "/dev/ttyUSB0") == 0)
+//	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB0");
+//	    else if(strcmp(dev_path, "/dev/ttyUSB2") == 0)
+//	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB2");
+//	    else if(strcmp(dev_path, "/dev/ttyUSB3") == 0)
+//	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB3");
+//	    else if(strcmp(dev_path, "/dev/ttyUSB4") == 0)
+//	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB4");
+
 		insertLastNode(N, dev_path);
+	}
 	else {
 		int i;
 		listNode *prev = N->head;
 
 		while(prev != NULL) {
-			if(strcmp(prev->dev_path, dev_path) == 0)
-				break;
-			else if(prev == N->tail)
+			if(strcmp(prev->dev_path, dev_path) == 0) {
+	            break;
+			}
+			else if(prev == N->tail) {
 				insertLastNode(N, dev_path);
+
+//				if(strcmp(dev_path, "/dev/ttyUSB0") == 0)
+//				     LOGI("     6. makeLinkedList dev_path == /dev/ttyUSB0");
+//				else if(strcmp(dev_path, "/dev/ttyUSB2") == 0)
+//				     LOGI("     6. makeLinkedList dev_path == /dev/ttyUSB2");
+//				else if(strcmp(dev_path, "/dev/ttyUSB3") == 0)
+//				     LOGI("     6. makeLinkedList dev_path == /dev/ttyUSB3");
+//				else if(strcmp(dev_path, "/dev/ttyUSB4") == 0)
+//				     LOGI("     6. makeLinkedList dev_path == /dev/ttyUSB4");
+			}
 
 			prev = prev->next;
 		}
@@ -68,6 +99,16 @@ void M_makeLinkedList(listNode_h *N, char *dev_path)
 void M_openDevice(listNode_h *N)
 {
 	N->tail->fd = user_uart_open(N->tail->dev_path);
+
+//    if(strcmp(N->tail->dev_path, "/dev/ttyUSB0") == 0)
+//        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB0");
+//    else if(strcmp(N->tail->dev_path, "/dev/ttyUSB2") == 0)
+//        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB2");
+//    else if(strcmp(N->tail->dev_path, "/dev/ttyUSB3") == 0)
+//        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB3");
+//    else if(strcmp(N->tail->dev_path, "/dev/ttyUSB4") == 0)
+//        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB4");
+
 	if(N->tail->fd != -1) {
 		user_uart_config(N->tail->fd, 57600, 8, 0, 1);
 		printf(">> Open Device: %s, FD: %d\n", N->tail->dev_path, N->tail->fd);
@@ -78,41 +119,53 @@ void M_openDevice(listNode_h *N)
 
 int M_checkDeviceFingerprint(listNode *Node)
 {
-	int readSize;
+    int readSize;
 	int readTotalSize;
 	unsigned char buff[MAX_BUFF_SIZE] = {0};
 
 	int checkCompany = 0;
 
-	// tcflush() 함수는, fd 그리고 참조되는 단말에 쓰기나무 데이터 이지만 아직 단말에 송신되어 있지 않은 모든 데이터,
-	//     또는 그 단말로부터 수신한 데이터이지만 아직 읽어들이지 않은 모든 데이터를, action 의 값에 응해 폐기합니다.
-	// TCIFLUSH	 수신했지만 읽어들이지 않은 데이터를 버립니다.
-	// TCOFLUSH	 쓰기응이지만 송신하고 있지 않는 데이터를 버립니다.
-	// TCIOFLUSH 수신했지만 읽어들이지 않은 데이터, 및 쓰기응이지만 송신하고 있지 않는 데이터의 양쪽 모두를 버립니다.
-
-	tcflush(Node->fd, TCIFLUSH);
 	printf(" -Analysing Sensor Packet Data...\n");
+
+//	LOGI("         10. checkDevicesFingerprint");
+
+//    if(strcmp(Node->dev_path, "/dev/ttyUSB0") == 0)
+//        LOGI("         10-1. /dev/ttyUSB0");
+//    else if(strcmp(Node->dev_path, "/dev/ttyUSB2") == 0)
+//        LOGI("         10-1. /dev/ttyUSB2");
+//    else if(strcmp(Node->dev_path, "/dev/ttyUSB3") == 0)
+//        LOGI("         10-1. /dev/ttyUSB3");
+//    else if(strcmp(Node->dev_path, "/dev/ttyUSB4") == 0)
+//        LOGI("         10-1. /dev/ttyUSB4");
 
 	// Read data until buff[MAX_BUFF_SIZE] full
 	for(readTotalSize = 0; readTotalSize < MAX_BUFF_SIZE; readTotalSize += readSize) {
+	    //LOGI("         10-2. Monitor read for loop");
 		if((readSize = user_uart_read(Node->fd, buff, MAX_BUFF_SIZE)) == -1) {
+
+		    //LOGI("         10-3. Monitor read data");
+
 			readSize = 0;
 			continue;
 		}
-
 //		printHex(buff, readSize);
 		strncat_s(Node->q_data[0], buff, readTotalSize, readSize);
 	}
+	//LOGI("         10-4. Monitor read End");
 	//	printHex(Node->q_data[0], readTotalSize);
 
 	if(M_checkDeviceCompany(Node)) {
 	    M_checkSensor(Node);
+
+//	    LOGI("         10-5. Monitor checkSensor");
 	    return true;
 	}
 	else {
-	    memset(Node , NULL, sizeof(Node));
+	    memset(Node, NULL, sizeof(Node));
 	}
 
+
+//	LOGI("         10-6. Monitor End");
 	return false;
 }
 

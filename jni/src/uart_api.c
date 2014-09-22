@@ -4,10 +4,11 @@
 #include <fcntl.h>
 #include <errno.h>
 #include "uart_api.h"
+#include "Logcat.h"
 
-volatile int STOP = FALSE;
-void signal_handler_IO(void);   /* signal handler function */
-int wait_flag = TRUE;		/* not recv signal == TRUE */
+static volatile int STOP = FALSE;
+static void signal_handler_IO(void);   /* signal handler function */
+static int wait_flag = TRUE;		/* not recv signal == TRUE */
 static struct termios uart_oldtio, uart_newtio;
 
 /* Serial Device Open */
@@ -32,7 +33,7 @@ int user_uart_open(char *device)
  */
 void user_uart_close (int uart_dev)
 {
-	tcsetattr(uart_dev, TCSANOW, &uart_oldtio);
+    tcsetattr(uart_dev, TCSANOW, &uart_oldtio);
 	close(uart_dev);
 }
 /*
@@ -122,14 +123,18 @@ int user_uart_read(int uart_dev, unsigned char *ubuf, int size)
 {
 	int res = 0;
 
+    // LOGI("  > user_uart_read Start");
 	/* loop while waiting for input. normally we would do something	useful here */
 	while(STOP == FALSE) {
+	    //LOGI("         10-4. loop start");
 		/* after receiving SIGIO, wait_flag = FALSE, input is available and can be read */
 		if(wait_flag == FALSE) {
-			res = read(uart_dev, ubuf, size);
+		    res = read(uart_dev, ubuf, size);
+		    //LOGI("         10-5. read Success");
 			wait_flag = TRUE;      /* wait for new input */
 			break;
 		}
+		usleep(1000*10);
 	}
 
 	return res;
@@ -140,5 +145,6 @@ int user_uart_read(int uart_dev, unsigned char *ubuf, int size)
  */
 void signal_handler_IO(void)
 {
+
 	wait_flag = FALSE;
 }

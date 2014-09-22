@@ -49,7 +49,9 @@ obj/local/armeabi/objs/HealthCare/src/monitorDevice.o: \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/ioctl_compat.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/termios.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/termios.h \
- jni/inc/linked_list.h jni/inc/defines.h jni/inc/hanback_device.h
+ jni/inc/linked_list.h jni/inc/defines.h jni/inc/hanback_device.h \
+ jni/inc/Logcat.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h
 
 jni/inc/monitorDevice.h:
 
@@ -156,3 +158,7 @@ jni/inc/linked_list.h:
 jni/inc/defines.h:
 
 jni/inc/hanback_device.h:
+
+jni/inc/Logcat.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:

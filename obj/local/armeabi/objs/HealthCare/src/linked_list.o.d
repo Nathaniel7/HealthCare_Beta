@@ -23,7 +23,8 @@ obj/local/armeabi/objs/HealthCare/src/linked_list.o: \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/alloca.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/strings.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/memory.h \
- jni/inc/linked_list.h jni/inc/defines.h
+ jni/inc/linked_list.h jni/inc/defines.h jni/inc/Logcat.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h:
 
@@ -74,3 +75,7 @@ obj/local/armeabi/objs/HealthCare/src/linked_list.o: \
 jni/inc/linked_list.h:
 
 jni/inc/defines.h:
+
+jni/inc/Logcat.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:

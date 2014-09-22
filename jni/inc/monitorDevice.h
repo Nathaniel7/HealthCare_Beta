@@ -13,7 +13,7 @@ enum COMPANY_NUM {
 };
 
 int M_connectDevice(listNode_h *);
-void M_makeLinkedList(listNode_h *, char *);
+void M_makeLinkedList(listNode_h *, const char *);
 void M_openDevice(listNode_h *);
 int  M_checkDeviceFingerprint(listNode *);
 void M_strncat_s(char *, char *, int, int );

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "linked_list.h"
+#include "Logcat.h"
 
 listNode_h *createListNode_H()//contain tail
 {
@@ -113,12 +114,18 @@ int getQueuedata(listNode* N,int data_opt)
 	return ret;
 }
 
-void initNode(listNode* newNode,char* dev_path)
+void initNode(listNode* newNode, const char* dev_path)
 {
 	int i=0;
 
 	memset(newNode, 0, sizeof(listNode));
 	strcpy(newNode->dev_path, dev_path);
+
+//    if(strcmp(dev_path, "/dev/ttyUSB0") == 0 && strcmp(newNode->dev_path, "/dev/ttyUSB0") == 0)
+//        LOGI("       8. init Node /dev/ttyUSB0");
+//    else
+//        LOGI("       8. init Node /dev/ttyUSB????");
+
 	newNode->next = NULL;
 	newNode->q_front = 0;
 	newNode->q_rear  = 0;
@@ -141,10 +148,16 @@ void initNode(listNode* newNode,char* dev_path)
 	newNode->read_cnt=0;
 }
 
-void insertLastNode(listNode_h *N, char *dev_path)//node add Head and Tail
+void insertLastNode(listNode_h *N, const char *dev_path)//node add Head and Tail
 {
 	listNode *newNode = (listNode *)malloc(sizeof(listNode));
+//	if(strcmp(dev_path, "/dev/ttyUSB0") == 0)
+//	    LOGI("      7. insertNode /dev/ttyUSB0");
+//	else
+//	    LOGI("      7. insertNode /dev/ttyUSB????");
+
 	initNode(newNode,dev_path);
+
 
 	if(N->head == NULL) {	//node not exist
 		//set head

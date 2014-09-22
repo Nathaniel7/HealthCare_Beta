@@ -1,11 +1,14 @@
 package com.Nathaniel.healthcare.beta;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends Activity {	
+public class MainActivity extends Activity {
 //	Thread TTD = new Thread(new Abstraction_Thread(0));
 	Thread TM = new Thread(new Abstraction_Thread(1));
 	Thread TF = new Thread(new Abstraction_Thread(2));
@@ -15,7 +18,12 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-	
+		try {
+			Runtime.getRuntime().exec("su");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		TTD.start();
 		TM.start();
 		TF.start();
@@ -27,6 +35,19 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch(keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			
+			finish();
+			break;
+		}
+		
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -65,4 +86,5 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+	
 }

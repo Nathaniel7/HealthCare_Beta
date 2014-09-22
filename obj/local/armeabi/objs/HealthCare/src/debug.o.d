@@ -23,7 +23,9 @@ obj/local/armeabi/objs/HealthCare/src/debug.o: jni/src/debug.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/alloca.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/strings.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/memory.h \
- jni/inc/linked_list.h jni/inc/defines.h jni/inc/hanback_device.h
+ jni/inc/linked_list.h jni/inc/defines.h jni/inc/hanback_device.h \
+ jni/inc/Logcat.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h
 
 jni/inc/debug.h:
 
@@ -78,3 +80,7 @@ jni/inc/linked_list.h:
 jni/inc/defines.h:
 
 jni/inc/hanback_device.h:
+
+jni/inc/Logcat.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:

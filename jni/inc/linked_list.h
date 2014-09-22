@@ -74,8 +74,8 @@ typedef struct ListNode_h
 #define FILTER_OPT_NONFILTERD	7
 
 listNode_h *createListNode_H(); //contain tail
-void initNode(listNode*,char*);
-void insertLastNode(listNode_h *, char *);  //node add Head and Tail
+void initNode(listNode*, const char*);
+void insertLastNode(listNode_h *, const char *);  //node add Head and Tail
 void deleteNode(listNode_h *, char *);      //dev not exist
 void displayNode(listNode_h *);
 void freeAllNode(listNode_h *);
