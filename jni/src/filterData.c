@@ -7,16 +7,16 @@ void printLogcat(const char *buff, int count,char* dev_name)
 {
     int i;
     char temp[1024];
-    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼");
-    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "▼ <%s> %d", dev_name, count);
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼");
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▼ <%s> %d", dev_name, count);
 
     for(i = 0; i < count * 3; i+=3) {
         sprintf(&temp[i], "%02X", buff[i/3]);
         sprintf(&temp[i+2], " ");
     }
 
-    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "▲ %s", temp);
-    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▲ %s", temp);
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
 }
 
 void printHex2(const char *buff, int count,char* dev_name)
@@ -30,7 +30,6 @@ void printHex2(const char *buff, int count,char* dev_name)
 
     printf("\n");
 }
-//////
 
 int F_checkStartBit(listNode* p, unsigned char* readBuff)
 {
@@ -526,7 +525,6 @@ int F_filterHanbackDust(listNode* p, int index)
 	{
 		if( curr_data < 60)
 			return 0;
-
 	}
 
 	return 1;

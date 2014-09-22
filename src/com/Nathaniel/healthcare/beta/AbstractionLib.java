@@ -6,6 +6,8 @@ public class AbstractionLib {
 	public native static void TFmakeDevthread();
 	public native static void TSpressData();
 	
+	public native static int[] data();
+	
 	static {
 		System.loadLibrary("HealthCare"); // Library Load "libHealthCare.so"
 	}
