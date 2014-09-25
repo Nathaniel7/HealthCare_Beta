@@ -2,6 +2,22 @@
 #include "Logcat.h"
 #include <string.h>
 
+void printLogcat2(const char *buff, int count,char* dev_name)
+{
+    int i;
+    char temp[1024];
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼");
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▼ <%s> %d", dev_name, count);
+
+    for(i = 0; i < count * 3; i+=3) {
+        sprintf(&temp[i], "%02X", buff[i/3]);
+        sprintf(&temp[i+2], " ");
+    }
+
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▲ %s", temp);
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+}
+
 // Device Monitoring Function
 int M_connectDevice(listNode_h *N)
 {
@@ -20,7 +36,7 @@ int M_connectDevice(listNode_h *N)
         // LOGI("   4. Monitor Devices");
 		//*Check Device exist
 		if(access(USB_serial[i], R_OK & W_OK) == 0) {
-
+		    //__android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▲!!!!! access available / %s", USB_serial[i]);
             // LOGI("    5. Monitor Devices");
 		    // make Linked List
 		    M_makeLinkedList(N, USB_serial[i]);
@@ -48,6 +64,8 @@ int M_connectDevice(listNode_h *N)
 			    }
 			}
 		}//end *Check Device exist
+//		else
+//		    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▲!!!!! Sensor access Fail !! %s", USB_serial[i]);
 	}
 	printCutLine();		// ---------------------------------
 
@@ -67,7 +85,7 @@ void M_makeLinkedList(listNode_h *N, const char *dev_path)
 //	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB3");
 //	    else if(strcmp(dev_path, "/dev/ttyUSB4") == 0)
 //	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB4");
-
+//	    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, ">> M_LinkedList Device: %s / head NULL", dev_path);
 		insertLastNode(N, dev_path);
 	}
 	else {
@@ -80,6 +98,7 @@ void M_makeLinkedList(listNode_h *N, const char *dev_path)
 			}
 			else if(prev == N->tail) {
 				insertLastNode(N, dev_path);
+//				__android_log_print(ANDROID_LOG_INFO, LOG_TAG, ">> M_LinkedList Device: %s / head NOT NULL", dev_path);
 
 //				if(strcmp(dev_path, "/dev/ttyUSB0") == 0)
 //				     LOGI("     6. makeLinkedList dev_path == /dev/ttyUSB0");
@@ -99,8 +118,7 @@ void M_makeLinkedList(listNode_h *N, const char *dev_path)
 void M_openDevice(listNode_h *N)
 {
 	N->tail->fd = user_uart_open(N->tail->dev_path);
-
-//    if(strcmp(N->tail->dev_path, "/dev/ttyUSB0") == 0)
+	//    if(strcmp(N->tail->dev_path, "/dev/ttyUSB0") == 0)
 //        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB0");
 //    else if(strcmp(N->tail->dev_path, "/dev/ttyUSB2") == 0)
 //        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB2");
@@ -111,10 +129,11 @@ void M_openDevice(listNode_h *N)
 
 	if(N->tail->fd != -1) {
 		user_uart_config(N->tail->fd, 57600, 8, 0, 1);
-		printf(">> Open Device: %s, FD: %d\n", N->tail->dev_path, N->tail->fd);
+//		__android_log_print(ANDROID_LOG_INFO, LOG_TAG, ">> Open Device: %s, FD: %d\n", N->tail->dev_path, N->tail->fd);
 	}
-	else
-		printf(">> Open Device Fail!!!!!\n");
+//	else
+//	    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, ">> Fail! Open Device: %s, FD: %d\n", N->tail->dev_path, N->tail->fd);
+
 }
 
 int M_checkDeviceFingerprint(listNode *Node)
@@ -151,6 +170,7 @@ int M_checkDeviceFingerprint(listNode *Node)
 //		printHex(buff, readSize);
 		strncat_s(Node->q_data[0], buff, readTotalSize, readSize);
 	}
+//	printLogcat2(Node->q_data[0], readTotalSize, Node->dev_name);
 	//LOGI("         10-4. Monitor read End");
 	//	printHex(Node->q_data[0], readTotalSize);
 

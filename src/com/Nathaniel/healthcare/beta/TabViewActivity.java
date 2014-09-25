@@ -35,7 +35,7 @@ public class TabViewActivity extends TabActivity {
 		//		TTD.start();
 		TM.start();
 		TF.start();
-		//		TS.start();
+		TS.start();
 
 		res = getResources();
 		tabHost = getTabHost();

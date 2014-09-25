@@ -39,6 +39,9 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TFmakeD
 JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpressData
   (JNIEnv *, jclass);
 
+JNIEXPORT jintArray JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_getData
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

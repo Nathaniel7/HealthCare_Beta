@@ -1,9 +1,32 @@
 #include "defines.h"
 
+////////장치의 상태를 나타낸다 ////////////////
+#define STATE_WORST                  0
+#define STATE_GOOD               1
+#define STATE_WAIT                   2
+//////센서가 출저회사를 나타낸다 ////////////////
+#define COMPANY_HANBACK              0x76
+///////센서의 종류를 나타낸다///////
+#define HANBACK_DIOXIDE_FRONT        0x13
+#define HANBACK_MONOXIDE_FRONT       0x14
+#define HANBACK_DUST_FRONT           0x15
+#define HANBACK_VOC_FRONT            0x17
+#define HANBACK_THRMMTR_FRONT        0x18
+#define HANBACK_WEATHER_FRONT        0x12
+
+typedef struct Abstract
+{
+    int res_sensor;
+    int res_company;
+    int res_sensor_datalen;
+    int res_state;
+    int res_analyzeData[10];
+} AbstNode;
+
 typedef struct ListNode
 {
-    int  fd;
-    int  dev_pacLen;    // device total packet Length
+    int fd;
+    int dev_pacLen; // device total packet Length
     int dev_datalen;//전체패킷중 데이터에 해당되는 길이
     int dev_filter_opt;
     int dev_monitor_status;
@@ -14,6 +37,8 @@ typedef struct ListNode
     char dev_id[2];
     char dev_maker_id[2];
     char dev_end_bit[2];
+
+    AbstNode dev_abs;
 
     ///////////////Read data////////////////////
     unsigned char q_data[5][MAX_BUFF_SIZE];//DCUR//q_data대신 다른 것으로 바꾸어야함.
@@ -34,18 +59,20 @@ typedef struct ListNode
     int p_analyzeData[MAX_BUFF_SIZE];
     //int avg_analyzeData;
     //int getErrordata;
+
     ///////////filtering 시에 사용되는 값들////////////
-    int avg_analyzeData[MAX_BUFF_SIZE];
-    int total_analyzeData[MAX_BUFF_SIZE];
+    int avg_analyzeData[MAX_BUFF_SIZE];//DCUR//
+    int total_analyzeData[MAX_BUFF_SIZE];//DCUR//
     int read_cnt;//총 read한 횟수를 셉니다.
 
-    int getErrordataThermometer[2];
-    int getErrordataWeather[6];
+    int getErrordataThermometer[2];//DCUR//
+    int getErrordataWeather[6];//DCUR//
     int getqueue_cnt;//queue에서 꺼낸 총 횟수를 말합니다.
 
+    int Circumstate;         //추가한 값
     //////////////DCURFILE입력을위함//////////////
     int fileQdata[MAX_QUEUE_SIZE];//##WARNING### 파일입출력시 데이터크기가 20을 넘어도 에러가 나지않음
-    					   //컴파일러에서 잡아주는 것 같다.
+                        //컴파일러에서 잡아주는 것 같다.
     int fileq_front;
 
     //////////filtering 시 고정값 찾는것//////////
