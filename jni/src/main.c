@@ -159,7 +159,7 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpress
             p = p ->next;
         }//end while
 
-        sleep(1);
+        //sleep(1);
     }//end while
 }
 

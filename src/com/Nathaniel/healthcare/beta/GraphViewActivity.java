@@ -58,13 +58,14 @@ public class GraphViewActivity extends Activity {
 		super.onResume();
 		GraphViewData[] data = new GraphViewData[1];
 		data[0] = new GraphViewData(0, 0);
-		series_di = new GraphViewSeries("Dioxide", new GraphViewSeriesStyle(Color.rgb(255, 93, 68), 4), data);
-		series_du = new GraphViewSeries("Dust", new GraphViewSeriesStyle(Color.rgb(70, 232, 130), 4), data);
-		series_vo = new GraphViewSeries("VOC", new GraphViewSeriesStyle(Color.rgb(193, 255, 89), 4), data);
-		series_th = new GraphViewSeries("Thermometer", new GraphViewSeriesStyle(Color.rgb(255, 163, 92), 4), data);
+		series_di = new GraphViewSeries("Dioxide(ppm)", new GraphViewSeriesStyle(Color.rgb(255, 139, 60), 4), data);
+		series_du = new GraphViewSeries("Dust(ppb)", new GraphViewSeriesStyle(Color.rgb(49, 145, 232), 4), data);
+		series_vo = new GraphViewSeries("VOC(ppb)", new GraphViewSeriesStyle(Color.rgb(172, 60, 255), 4), data);
+		series_th = new GraphViewSeries("Thermometer(℃)", new GraphViewSeriesStyle(Color.rgb(232, 81, 69), 4), data);
 
-		// Graph Title
+
 		GraphView graphView;
+		// Graph Title
 		graphView = new LineGraphView(this, "Sensors Graph");
 
 		// add data
@@ -73,15 +74,16 @@ public class GraphViewActivity extends Activity {
 		graphView.addSeries(series_vo);
 		graphView.addSeries(series_th);
 
-		graphView.setViewPort(0, 50);	// first view start~end location  
+
+		graphView.setViewPort(0, 40);	// first view start~end location  
 		graphView.setScalable(true);	// enable scrolling and zoom
 
 		// optional - legend
 		graphView.setShowLegend(true);
 		graphView.setLegendAlign(LegendAlign.MIDDLE);	// Legend location
-		graphView.setLegendWidth(280);				// Legend Width
+		graphView.setLegendWidth(290);				// Legend Width
 
-		LinearLayout layout = (LinearLayout)findViewById(R.id.graph_sub_layout);		
+		LinearLayout layout = (LinearLayout)findViewById(R.id.graph_sub_layout);
 		layout = (LinearLayout) findViewById(R.id.graph_layout);
 		layout.addView(graphView);
 
