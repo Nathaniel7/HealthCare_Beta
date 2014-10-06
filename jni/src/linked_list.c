@@ -35,6 +35,87 @@ int isEmptyQueuedata(listNode* N,int data_opt)
 	return 0;
 }
 
+void setFilterQdata(listNode* N, int data, int data_opt)
+{
+    if (data_opt == CURRDATA) {
+        N->c_filteredData[N->f_cfront] = data;
+        N->f_cfront++; //printf("######FRONT++!#####\n");//DCUR
+        N->f_cfront %= MAX_BUFF_SIZE;
+
+        N->f_getqueue_cnt++;
+        N->f_read_cnt++;
+    } else if (data_opt == PREVDATA) {
+        N->p_filteredData[N->f_pfront] = data;
+        N->f_pfront++;
+        N->f_pfront %= MAX_BUFF_SIZE;
+        //printf("[PREVIOUS]setPREVDATA:%d front:%d rear:%d\n",data,N->q_pfront,N->q_prear);
+    }
+}//end void
+
+int getFilterQdata(listNode* N, int data_opt)
+{
+    int i = 0;
+    int ret = 0;
+
+
+    if(N->f_getqueue_cnt > 0 && data_opt == CURRDATA)
+        N->f_getqueue_cnt--;
+    else if(N->f_getqueue_cnt == 0 && data_opt != PREVDATA)
+        return 0;
+
+    //Exception
+    if(data_opt == CURRDATA)
+    {
+        if (N->f_cfront == N->f_crear)
+            return 0;
+    }
+    else// PREVDATA
+    {
+        if (N->f_pfront == N->f_prear)
+            return 0;
+    }
+
+    if(data_opt == CURRDATA)
+    {
+        ret = N->c_filteredData[N->f_crear];
+
+        setFilterQdata(N, ret, PREVDATA);
+
+        //N->c_filteredData[N->f_crear] = -9999; //init N->c_filteredData  ##WARNING### 나중에 큐 이상의 데이터를 저장 할때 문제가 되는지 테스트해보아야함.
+        N->f_crear++; //printf("######REAR++!#####\n");//DCUR
+        N->f_crear %= MAX_BUFF_SIZE;
+
+        //N->fileQdata[N->fileq_front++]=ret;
+        N->fileQdata[N->fileq_front++] = ret;//##WARNING### segmantfault의 원인이었음 버퍼크기
+    }
+    else if(data_opt == PREVDATA)
+    {
+        ret = N->p_filteredData[N->f_prear];
+        //printf("ret = :%d rear:%d\n",N->q_prdata[N->f_prear],N->f_prear);
+        //N->q_prdata[N->f_prear] = -9999; //##WARNING###
+        N->f_prear++;
+        N->f_prear %= MAX_BUFF_SIZE;
+    }
+    else if(data_opt == PRINTDATA)//delete
+    {
+        printf("[Previous Analyzed Data]:");
+        for(i=N->f_prear;i<N->f_pfront;i++)
+            printf("%d-",N->q_prdata[i]);
+
+        printf("\n");
+
+        printf("[Current Analyzed Data]:");
+        for(i=N->f_crear;i<N->f_cfront;i++)
+            printf("%d-",N->c_filteredData[i]);
+
+    }
+
+    ///save previous data
+    //setQueue_pdata(N,ret);
+    return ret;
+}
+
+
 void setQueuedata(listNode* N,int data,int data_opt)
 {
 	if (data_opt == CURRDATA) {

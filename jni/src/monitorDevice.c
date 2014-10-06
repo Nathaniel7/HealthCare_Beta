@@ -27,31 +27,32 @@ int M_connectDevice(listNode_h *N)
 			"/dev/ttyUSB0", "/dev/ttyUSB2", "/dev/ttyUSB3", "/dev/ttyUSB4",
 			"/dev/ttyUSB5", "/dev/ttyUSB6", "/dev/ttyUSB7", "/dev/ttyUSB8", "/dev/ttyUSB9" };
 
-	printf("\n>> Connect Device\n");
+//	printf("\n>> Connect Device\n");
 
     // LOGI("  3. Monitor Devices");
 	for(i = 0; i < MAX_DEV_NUM; i++){	// Device Search and connect
 		int read_size;
 
-        // LOGI("   4. Monitor Devices");
+//         LOGI("   4. Monitor Devices");
 		//*Check Device exist
 		if(access(USB_serial[i], R_OK & W_OK) == 0) {
-		    //__android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▲!!!!! access available / %s", USB_serial[i]);
-            // LOGI("    5. Monitor Devices");
+//		    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▲!!!!! access available / %s", USB_serial[i]);
+//             LOGI("    5. Monitor Devices");
 		    // make Linked List
 		    M_makeLinkedList(N, USB_serial[i]);
 		    // check not yet open Device
 		    if(N->tail->fd == 0) {
-                //LOGI("        9. Monitor open device");
+//                LOGI("        9. Monitor open device");
 		        M_openDevice(N);
 		    }
 		    if(N->tail->fd != -1 && !strcmp(N->tail->dev_name, "")) {
-		        // LOGI("         10. Monitor fd, name check");
+//		         LOGI("         10. Monitor fd, name check");
                 // analysing sensor packet data
-		        if(M_checkDeviceFingerprint(N->tail)){
-
+		        if(M_checkDeviceFingerprint(N->tail))
+		        {
+//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor1");
 		            // just display device node info
-		            M_printDeviceInfo(*N->tail);
+		            // M_printDeviceInfo(*N->tail);
 		            user_uart_close(N->tail->fd);
 
 		            N->tail->dev_monitor_status = 1;
@@ -144,7 +145,8 @@ int M_checkDeviceFingerprint(listNode *Node)
 
 	int checkCompany = 0;
 
-	printf(" -Analysing Sensor Packet Data...\n");
+//    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor2");
+//	printf(" -Analysing Sensor Packet Data...\n");
 
 //	LOGI("         10. checkDevicesFingerprint");
 
@@ -162,6 +164,7 @@ int M_checkDeviceFingerprint(listNode *Node)
 	    //LOGI("         10-2. Monitor read for loop");
 		if((readSize = user_uart_read(Node->fd, buff, MAX_BUFF_SIZE)) == -1) {
 
+//		    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor Read");
 		    //LOGI("         10-3. Monitor read data");
 
 			readSize = 0;
@@ -170,18 +173,18 @@ int M_checkDeviceFingerprint(listNode *Node)
 //		printHex(buff, readSize);
 		strncat_s(Node->q_data[0], buff, readTotalSize, readSize);
 	}
-//	printLogcat2(Node->q_data[0], readTotalSize, Node->dev_name);
 	//LOGI("         10-4. Monitor read End");
 	//	printHex(Node->q_data[0], readTotalSize);
 
 	if(M_checkDeviceCompany(Node)) {
 	    M_checkSensor(Node);
 
+//	    printLogcat2(Node->q_data[0], readTotalSize, Node->dev_name);
 //	    LOGI("         10-5. Monitor checkSensor");
 	    return true;
 	}
 	else {
-	    memset(Node, NULL, sizeof(Node));
+	    memset(Node, '\0', sizeof(Node));
 	}
 
 

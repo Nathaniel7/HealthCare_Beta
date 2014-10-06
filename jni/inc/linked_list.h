@@ -1,18 +1,23 @@
 #include "defines.h"
 
 ////////장치의 상태를 나타낸다 ////////////////
-#define STATE_WORST                  0
-#define STATE_GOOD               1
-#define STATE_WAIT                   2
+enum sensor_status
+{
+    STATE_WORST,
+    STATE_GOOD,
+    STATE_WAIT
+};
+
 //////센서가 출저회사를 나타낸다 ////////////////
-#define COMPANY_HANBACK              0x76
+#define COMPANY_HANBACK             0x76
+
 ///////센서의 종류를 나타낸다///////
-#define HANBACK_DIOXIDE_FRONT        0x13
-#define HANBACK_MONOXIDE_FRONT       0x14
-#define HANBACK_DUST_FRONT           0x15
-#define HANBACK_VOC_FRONT            0x17
-#define HANBACK_THRMMTR_FRONT        0x18
-#define HANBACK_WEATHER_FRONT        0x12
+#define HANBACK_DIOXIDE_FRONT       0x13
+#define HANBACK_MONOXIDE_FRONT      0x14
+#define HANBACK_DUST_FRONT          0x15
+#define HANBACK_VOC_FRONT           0x17
+#define HANBACK_THRMMTR_FRONT       0x18
+#define HANBACK_WEATHER_FRONT       0x12
 
 typedef struct Abstract
 {
@@ -51,25 +56,40 @@ typedef struct ListNode
     int q_prdata[MAX_QUEUE_SIZE];//previous data
     int q_pfront;
     int q_prear;
+
     ////////Raw data/////////////
     unsigned char c_buf[MAX_BUFF_SIZE];
     unsigned char p_buf[MAX_BUFF_SIZE];
-    ////////Analyzed data////////
-    int c_analyzeData[MAX_BUFF_SIZE];
-    int p_analyzeData[MAX_BUFF_SIZE];
-    //int avg_analyzeData;
-    //int getErrordata;
 
-    ///////////filtering 시에 사용되는 값들////////////
-    int avg_analyzeData[MAX_BUFF_SIZE];//DCUR//
-    int total_analyzeData[MAX_BUFF_SIZE];//DCUR//
+    ////////Analyzed data////////
+    int c_analyzedData[MAX_BUFF_SIZE];
+    int p_analyzedData[MAX_BUFF_SIZE];
+    int a_front;
+    int a_rear;
+    int a_flag;
+    int a_cnt;
+
+    int c_filteredData[MAX_BUFF_SIZE];
+    int p_filteredData[MAX_BUFF_SIZE];
+    int f_cfront;
+    int f_crear;
+    int f_pfront;
+    int f_prear;
+    int f_getqueue_cnt;
+    int f_read_cnt;
+
+    int summarizedData[MAX_BUFF_SIZE];
+
+//    ///////////filtering 시에 사용되는 값들////////////
+    /*Debug Using*/ int avg_analyzeData[MAX_BUFF_SIZE];//DCUR//
+    /*Debug Using*/ int total_analyzeData[MAX_BUFF_SIZE];//DCUR//
     int read_cnt;//총 read한 횟수를 셉니다.
 
     int getErrordataThermometer[2];//DCUR//
     int getErrordataWeather[6];//DCUR//
     int getqueue_cnt;//queue에서 꺼낸 총 횟수를 말합니다.
 
-    int Circumstate;         //추가한 값
+    int circumstance;         // status value
     //////////////DCURFILE입력을위함//////////////
     int fileQdata[MAX_QUEUE_SIZE];//##WARNING### 파일입출력시 데이터크기가 20을 넘어도 에러가 나지않음
                         //컴파일러에서 잡아주는 것 같다.
@@ -107,9 +127,12 @@ void deleteNode(listNode_h *, char *);      //dev not exist
 void displayNode(listNode_h *);
 void freeAllNode(listNode_h *);
 
+void setFilterQdata(listNode *, int, int); // Filter Data set
+int getFilterQdata(listNode *, int);
+
 void setQueuedata(listNode* N, int data, int data_opt);//analyzed data를 큐에다 저장합니다
-//int* getQueuedata(listNode*,int);//analyzed data를 큐에서 가져온 후 삭제합니다
 int getQueuedata(listNode* N, int data_opt);
+//int* getQueuedata(listNode*,int);//analyzed data를 큐에서 가져온 후 삭제합니다
 
 int isEmptyQueuedata(listNode*, int data_opt);
 
