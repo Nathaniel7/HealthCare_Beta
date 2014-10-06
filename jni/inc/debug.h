@@ -6,16 +6,16 @@
 
 #define ERRORDATA 	-1
 
-#define FILTER_OPT_BACKDATA     3
-#define FILTER_OPT_DEPLACEMENT  4
-#define FILTER_OPT_AVERAGE      5
-#define FILTER_OPT_NONFILTERD	6
-#define FILTER_OPT_FILTER		7
+//#define FILTER_OPT_BACKDATA     3
+//#define FILTER_OPT_DEPLACEMENT  4
+//#define FILTER_OPT_AVERAGE      5
+//#define FILTER_OPT_NONFILTERD	6
+//#define FILTER_OPT_FILTER		7
 
-void D_HBACK_Thermometer(p);
-void D_HBACK_Dioxide(listNode* p);
-void D_HBACK_Weather(listNode* p);
-void D_HBACK_Dust(listNode* p);
+void D_HBACK_Thermometer(listNode *);
+void D_HBACK_Dioxide(listNode *);
+void D_HBACK_Weather(listNode *);
+void D_HBACK_Dust(listNode *);
 
 void D_printRawData(listNode* N,int data_opt);
 void D_printQueueData(listNode* N,int data_opt);

@@ -75,7 +75,7 @@ public class GraphViewActivity extends Activity {
 		graphView.addSeries(series_th);
 
 
-		graphView.setViewPort(0, 40);	// first view start~end location  
+		graphView.setViewPort(0, 500);	// first view start~end location  
 		graphView.setScalable(true);	// enable scrolling and zoom
 
 		// optional - legend
@@ -99,19 +99,19 @@ public class GraphViewActivity extends Activity {
 							for(int i = 0; sensors[i] != 0; i += 100) {
 								switch(sensors[i+1]) {
 								case HANBACK_DIOXIDE_FRONT:
-									series_di.appendData(new GraphViewData(cnt_di+1, sensors[i+4]), true, 100);
+									series_di.appendData(new GraphViewData(cnt_di+1, sensors[i+4]), true, 1000);
 									cnt_di++;
 									break;
 								case HANBACK_DUST_FRONT:
-									series_du.appendData(new GraphViewData(cnt_du+1, sensors[i+4]), true, 100);
+									series_du.appendData(new GraphViewData(cnt_du+1, sensors[i+4]), true, 1000);
 									cnt_du++;
 									break;
 								case HANBACK_VOC_FRONT:
-									series_vo.appendData(new GraphViewData(cnt_vo+1, sensors[i+4]), true, 100);
+									series_vo.appendData(new GraphViewData(cnt_vo+1, sensors[i+4]), true, 1000);
 									cnt_vo++;
 									break;
 								case HANBACK_THRMMTR_FRONT:
-									series_th.appendData(new GraphViewData(cnt_th+1, sensors[i+4]), true, 100);
+									series_th.appendData(new GraphViewData(cnt_th+1, sensors[i+4] / 100.0), true, 1000);
 									cnt_th++;
 									break;
 								}
@@ -119,7 +119,7 @@ public class GraphViewActivity extends Activity {
 						}
 					});
 					// 복잡한 작업 simulating	
-					SystemClock.sleep(500);
+					SystemClock.sleep(250);
 				}
 
 			}

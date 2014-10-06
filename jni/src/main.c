@@ -32,10 +32,13 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TMconne
     //	extern TTD_Number;
     //	TTD_Number = 10;
 
+//    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor Start");
+
     while (1) {
         //LOGI(" > Monitoring Start");
+//        __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor0");
         if (M_connectDevice(Node)) {
-            printf("M-connect!()\n");
+//            printf("M-connect!()\n");
 //            printCutLine();
 
             setDevHead(Node);
@@ -68,8 +71,8 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TFmakeD
 
         if(p == NULL)
         {
-            printf("Sleep! readDataSuit!\n");
-            //sleep(1);//장치정보에대한 Make Linked List 만들기전에 생성되는것을 방지
+//            printf("Sleep! readDataSuit!\n");
+//            sleep(1);//장치정보에대한 Make Linked List 만들기전에 생성되는것을 방지
         }
         else
         {
@@ -90,7 +93,7 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TFmakeD
                 curDevice_cnt++;
             }
         }
-        sleep(1);
+        usleep(10000);
     }//end while
 }
 
@@ -99,9 +102,10 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpress
     //linkedlist 만들기
     listNode_h* Node;
     listNode* p=NULL;
-    int qData;//new
-    int i=0;
+    int i = 0;
+    int data[2] = {0};//new
 
+//    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Summary Start");
     while(1)
     {
         //LOGI(" > Summarization Start");
@@ -111,62 +115,47 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpress
 
         while(p != NULL)
         {
-//            __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%s", p->dev_name);
-
-            if (p->getqueue_cnt > p->dev_datalen / 2
-                    && p->dev_datalen / 2 != 0)
+            if (p->f_getqueue_cnt > p->dev_datalen / 2 && p->dev_datalen / 2 != 0)
             {
-                // printf("\n<<<<<%s'sQueuedata [%d(q-r) %d]>>>>>>>\n",p->dev_name ,
-                //                       (p->q_front-p->q_rear)%MAX_QUEUE_SIZE,p->getqueue_cnt%MAX_QUEUE_SIZE);
-                //               ////////////////new///////////
-                //##WARNING##
-                if (0 == strcmp(p->dev_name, "Thermometer")) //D_getQueuedata함수가 있습니다.D_getQueuedata사용시 데이터가사리지므로 주의해야함.
-                    D_HBACK_Thermometer(p);
-                else if (0 == strcmp(p->dev_name, "Weather"))
-                    D_HBACK_Weather(p);
-                else if (0 == strcmp(p->dev_name, "Dioxide"))
-                    D_HBACK_Dioxide(p);
-                else if( 0 == strcmp(p->dev_name, "Dust"))
-                    D_HBACK_Dust(p);
-                else if( 0 == strcmp(p->dev_name, "VOC"))
-                    D_HBACK_VOC(p);
+                for(i = 0; i < p->dev_datalen/2; i++)
+                {
+                    data[i] = getFilterQdata(p, CURRDATA);
 
-                ///////////////////Summaryzation Information/////////////////
+                    //#WARNING# FILTER_OPT_FILTER일경우 1만 반환 FILTER_OPTNONFILTERED라면 에러데이터는 0반환
+                    // error Data는 -1로 표기되므로 그를 고려하여서 폐기하여야 한다.
+                    if(data[i] = S_SummaryHanbackSensor(p, i, data[i]))
+                    {
+                        p->summarizedData[i] = data[i]; //current analyzed data를 저장함
+//                        __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "AAAA data: %d / %d", data[i], p->summarizedData[i]);
+                    }
+                    else
+                    {
+                        p->summarizedData[i] = -1;
+                        printf("\n[Error Filtering] : O\n");
+                    }
+                }
+
                 p->dev_abs.res_sensor          = p->dev_id[0];
                 p->dev_abs.res_company         = p->dev_maker_id[0];
                 p->dev_abs.res_sensor_datalen  = p->dev_datalen;
 
-                for(i=0; i<p->dev_datalen/2; i++)
-                    p->dev_abs.res_analyzeData[i] = p->c_analyzeData[i];//getQueuedata(p,PREVDATA);
-
-                if(p->Circumstate)
-                    p->dev_abs.res_state = STATE_GOOD;
-                else
-                    p->dev_abs.res_state = STATE_WORST;
-
-
-//                printf("\n\n#####sensor:%d company:%d\n res_sensor_datalen:%d res_state: %d#####",
-//                        tmpAbstNode.res_sensor, tmpAbstNode.res_company,
-//                        tmpAbstNode.res_sensor_datalen, tmpAbstNode.res_state);
-//
-//                printf("\n<<<<recvdata:");
-//                for(i=0; i<tmpAbstNode.res_sensor_datalen/2; i++)
-//                    printf("%d-",tmpAbstNode.res_analyzeData[i]);
-//                printf(">>>>>\n");
-
-                /////////////////////////////////////////////////////////////
+                for(i = 0; i < p->dev_datalen/2 && p->summarizedData[i] != -1; i++)
+                {
+                    p->dev_abs.res_analyzeData[i] = p->summarizedData[i];
+//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "Suma data: %d", p->summarizedData[i]);
+                }
             }
             p = p ->next;
         }//end while
 
-        //sleep(1);
+        usleep(100000);
     }//end while
 }
 
 JNIEXPORT jintArray JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_getData(JNIEnv *env, jclass clazz)
 {
     listNode_h* Node;
-    listNode* p=NULL;
+    listNode* p = NULL;
     int qData;//new
     int i = 0;
     int j = 0;
@@ -185,18 +174,18 @@ JNIEXPORT jintArray JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_ge
         fill[i+2] = p->dev_abs.res_sensor_datalen;
         fill[i+3] = p->dev_abs.res_state;
 
-        for(j = 0; j < p->dev_datalen/2; j++)
+        for(j = 0; j < p->dev_datalen/2; j++) {
             fill[i+4+j] = p->dev_abs.res_analyzeData[j]; //getQueuedata(p,PREVDATA);
-
-//        __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%02X, %02X, %02X, %02X ", fill[i], fill[i+1], fill[i+2], fill[i+3]);
-        if(fill[i+1] == HANBACK_DIOXIDE_FRONT)
-                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "DIO / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
-        if(fill[i+1] == HANBACK_DUST_FRONT)
-                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "DUS / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
-        if(fill[i+1] == HANBACK_THRMMTR_FRONT)
-                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "THR / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
-        if(fill[i+1] == HANBACK_VOC_FRONT)
-                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "VOC / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
+//            __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "fill data: %d", fill[i+4+j]);
+        }
+//        if(fill[i+1] == HANBACK_DIOXIDE_FRONT)
+//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "DIO / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
+//        if(fill[i+1] == HANBACK_DUST_FRONT)
+//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "DUS / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
+//        if(fill[i+1] == HANBACK_THRMMTR_FRONT)
+//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "THR / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
+//        if(fill[i+1] == HANBACK_VOC_FRONT)
+//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "VOC / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
 
 
         p = p ->next;
@@ -257,20 +246,3 @@ void printCutLine()
 {
     printf("\n--------------------------------------------------------\n");
 }
-
-//TEST//
-void test()
-{
-    listNode_h* tmpHead = getDevHead();
-    listNode* p = tmpHead->head;
-
-    while(p != NULL)
-    {
-        printf("%s-",p->dev_name);
-        p = p->next;
-    }
-    printf("\n");
-    sleep(1);
-}
-//END TEST//
-

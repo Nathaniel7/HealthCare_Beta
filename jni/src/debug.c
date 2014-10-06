@@ -3,10 +3,10 @@
 
 void D_HBACK_Thermometer(listNode* p)//D_printRawData(p, CURRDATA); , D_printUserData(p, CURRDATA);
 {
-    int prev_data =p->p_analyzeData[0];
-    int prev_data2=p->p_analyzeData[1];
-    int curr_data =p->c_analyzeData[0];
-    int curr_data2=p->c_analyzeData[1];
+    int prev_data =p->p_analyzedData[0];
+    int prev_data2=p->p_analyzedData[1];
+    int curr_data =p->c_analyzedData[0];
+    int curr_data2=p->c_analyzedData[1];
     int i;
 
     //////////////////////////////////
@@ -52,8 +52,8 @@ void D_HBACK_Thermometer(listNode* p)//D_printRawData(p, CURRDATA); , D_printUse
 
 void D_HBACK_Dioxide(listNode* p)
 {
-    int prev_data =p->p_analyzeData[0];
-    int curr_data =p->c_analyzeData[0];
+    int prev_data =p->p_analyzedData[0];
+    int curr_data =p->c_analyzedData[0];
 
     ////////
     printf("\n\n---------------< %s > %d\n", p->dev_name, p->fd);
@@ -88,7 +88,7 @@ void D_HBACK_Weather(listNode* p)
     int i=0;
     int curr_data[10];
     for(i=0;i<p->dev_datalen/2+1;i++)//마지막은 lux
-        curr_data[i] = p->p_analyzeData[i];
+        curr_data[i] = p->p_analyzedData[i];
 
     ////////
     printf("\n\n---------------< %s > %d\n", p->dev_name, p->fd);
@@ -110,7 +110,7 @@ void D_HBACK_Dust(listNode* p)
     int i = 0;
     int curr_data[10];
     for(i=0;i<p->dev_datalen/2+1;i++)//마지막은 lux
-        curr_data[i] = p->p_analyzeData[i];
+        curr_data[i] = p->p_analyzedData[i];
 
     ////////
     printf("\n\n---------------< %s > %d\n", p->dev_name, p->fd);
@@ -125,7 +125,7 @@ void D_HBACK_VOC(listNode* p)
     int i = 0;
     int curr_data[10];
     for (i = 0; i < p->dev_datalen / 2 + 1; i++)
-        curr_data[i] = p->p_analyzeData[i];
+        curr_data[i] = p->p_analyzedData[i];
 
     ////////
     printf("\n\n---------------< %s > %d\n", p->dev_name, p->fd);
