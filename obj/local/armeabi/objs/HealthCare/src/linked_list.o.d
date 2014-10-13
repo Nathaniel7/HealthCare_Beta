@@ -1,5 +1,5 @@
-/work/workspace/HealthCare_Beta/obj/local/armeabi/objs/HealthCare/src/linked_list.o: \
- /work/workspace/HealthCare_Beta/jni/src/linked_list.c \
+obj/local/armeabi/objs/HealthCare/src/linked_list.o: \
+ jni/src/linked_list.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -23,9 +23,7 @@
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/alloca.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/strings.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/memory.h \
- /work/workspace/HealthCare_Beta/jni/inc/linked_list.h \
- /work/workspace/HealthCare_Beta/jni/inc/defines.h \
- /work/workspace/HealthCare_Beta/jni/inc/Logcat.h \
+ jni/inc/linked_list.h jni/inc/defines.h jni/inc/Logcat.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h:
@@ -74,10 +72,10 @@
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/memory.h:
 
-/work/workspace/HealthCare_Beta/jni/inc/linked_list.h:
+jni/inc/linked_list.h:
 
-/work/workspace/HealthCare_Beta/jni/inc/defines.h:
+jni/inc/defines.h:
 
-/work/workspace/HealthCare_Beta/jni/inc/Logcat.h:
+jni/inc/Logcat.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:

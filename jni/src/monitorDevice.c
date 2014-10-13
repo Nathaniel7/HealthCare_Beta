@@ -1,6 +1,5 @@
 #include "monitorDevice.h"
 #include "Logcat.h"
-#include <string.h>
 
 void printLogcat2(const char *buff, int count,char* dev_name)
 {
@@ -55,7 +54,14 @@ int M_connectDevice(listNode_h *N)
 		            // M_printDeviceInfo(*N->tail);
 		            user_uart_close(N->tail->fd);
 
+		            // Sensor Data store //
+		            N->tail->dev_abs.res_sensor          = N->tail->dev_id[0];
+		            N->tail->dev_abs.res_company         = N->tail->dev_maker_id[0];
+		            N->tail->dev_abs.res_sensor_datalen  = N->tail->dev_datalen;
+		            // Sensor Data store //
+
 		            N->tail->dev_monitor_status = 1;
+
 		            return 1;
 		        }
 		        else
@@ -64,6 +70,7 @@ int M_connectDevice(listNode_h *N)
 			        return 0;
 			    }
 			}
+		    usleep(1000 * 100);
 		}//end *Check Device exist
 //		else
 //		    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "  ▲!!!!! Sensor access Fail !! %s", USB_serial[i]);
@@ -78,15 +85,7 @@ void M_makeLinkedList(listNode_h *N, const char *dev_path)
 	//	printf(">> START Make Linked List\n");
 	if(N->head == NULL) {
 
-//	    if(strcmp(dev_path, "/dev/ttyUSB0") == 0)
-//	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB0");
-//	    else if(strcmp(dev_path, "/dev/ttyUSB2") == 0)
-//	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB2");
-//	    else if(strcmp(dev_path, "/dev/ttyUSB3") == 0)
-//	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB3");
-//	    else if(strcmp(dev_path, "/dev/ttyUSB4") == 0)
-//	        LOGI("     6. makeLinkedList head == NULL / dev_path == /dev/ttyUSB4");
-//	    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, ">> M_LinkedList Device: %s / head NULL", dev_path);
+		//	    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, ">> M_LinkedList Device: %s / head NULL", dev_path);
 		insertLastNode(N, dev_path);
 	}
 	else {
@@ -101,14 +100,6 @@ void M_makeLinkedList(listNode_h *N, const char *dev_path)
 				insertLastNode(N, dev_path);
 //				__android_log_print(ANDROID_LOG_INFO, LOG_TAG, ">> M_LinkedList Device: %s / head NOT NULL", dev_path);
 
-//				if(strcmp(dev_path, "/dev/ttyUSB0") == 0)
-//				     LOGI("     6. makeLinkedList dev_path == /dev/ttyUSB0");
-//				else if(strcmp(dev_path, "/dev/ttyUSB2") == 0)
-//				     LOGI("     6. makeLinkedList dev_path == /dev/ttyUSB2");
-//				else if(strcmp(dev_path, "/dev/ttyUSB3") == 0)
-//				     LOGI("     6. makeLinkedList dev_path == /dev/ttyUSB3");
-//				else if(strcmp(dev_path, "/dev/ttyUSB4") == 0)
-//				     LOGI("     6. makeLinkedList dev_path == /dev/ttyUSB4");
 			}
 
 			prev = prev->next;
@@ -119,14 +110,6 @@ void M_makeLinkedList(listNode_h *N, const char *dev_path)
 void M_openDevice(listNode_h *N)
 {
 	N->tail->fd = user_uart_open(N->tail->dev_path);
-	//    if(strcmp(N->tail->dev_path, "/dev/ttyUSB0") == 0)
-//        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB0");
-//    else if(strcmp(N->tail->dev_path, "/dev/ttyUSB2") == 0)
-//        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB2");
-//    else if(strcmp(N->tail->dev_path, "/dev/ttyUSB3") == 0)
-//        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB3");
-//    else if(strcmp(N->tail->dev_path, "/dev/ttyUSB4") == 0)
-//        LOGI("        9-1. makeLinkedList dev_path == /dev/ttyUSB4");
 
 	if(N->tail->fd != -1) {
 		user_uart_config(N->tail->fd, 57600, 8, 0, 1);
@@ -146,30 +129,20 @@ int M_checkDeviceFingerprint(listNode *Node)
 	int checkCompany = 0;
 
 //    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor2");
-//	printf(" -Analysing Sensor Packet Data...\n");
 
-//	LOGI("         10. checkDevicesFingerprint");
-
-//    if(strcmp(Node->dev_path, "/dev/ttyUSB0") == 0)
-//        LOGI("         10-1. /dev/ttyUSB0");
-//    else if(strcmp(Node->dev_path, "/dev/ttyUSB2") == 0)
-//        LOGI("         10-1. /dev/ttyUSB2");
-//    else if(strcmp(Node->dev_path, "/dev/ttyUSB3") == 0)
-//        LOGI("         10-1. /dev/ttyUSB3");
-//    else if(strcmp(Node->dev_path, "/dev/ttyUSB4") == 0)
-//        LOGI("         10-1. /dev/ttyUSB4");
 
 	// Read data until buff[MAX_BUFF_SIZE] full
 	for(readTotalSize = 0; readTotalSize < MAX_BUFF_SIZE; readTotalSize += readSize) {
 	    //LOGI("         10-2. Monitor read for loop");
 		if((readSize = user_uart_read(Node->fd, buff, MAX_BUFF_SIZE)) == -1) {
 
-//		    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor Read");
 		    //LOGI("         10-3. Monitor read data");
 
 			readSize = 0;
 			continue;
 		}
+//		__android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor Read");
+
 //		printHex(buff, readSize);
 		strncat_s(Node->q_data[0], buff, readTotalSize, readSize);
 	}

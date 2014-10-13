@@ -1,5 +1,4 @@
-/work/workspace/HealthCare_Beta/obj/local/armeabi/objs/HealthCare/src/uart_api.o: \
- /work/workspace/HealthCare_Beta/jni/src/uart_api.c \
+obj/local/armeabi/objs/HealthCare/src/uart_api.o: jni/src/uart_api.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -58,8 +57,7 @@
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/errno.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/errno.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/errno-base.h \
- /work/workspace/HealthCare_Beta/jni/inc/uart_api.h \
- /work/workspace/HealthCare_Beta/jni/inc/Logcat.h \
+ jni/inc/uart_api.h jni/inc/Logcat.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h:
@@ -178,8 +176,8 @@
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/errno-base.h:
 
-/work/workspace/HealthCare_Beta/jni/inc/uart_api.h:
+jni/inc/uart_api.h:
 
-/work/workspace/HealthCare_Beta/jni/inc/Logcat.h:
+jni/inc/Logcat.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:

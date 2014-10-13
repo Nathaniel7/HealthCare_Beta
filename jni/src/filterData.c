@@ -138,6 +138,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
             for(i = 0; i < p->dev_datalen / 4; i++) // Body Temp store
             {
                 p->c_analyzedData[i] = data[i];
+            	p->D_data.a_Data[i] = data[i];
 
                 ////  2-2. Remove Outlier
                 // p->c_analyzedData[front] == Body Temperature
@@ -146,7 +147,8 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                         p->c_analyzedData[i] > 0)
                 {
                     setFilterQdata(p, p->c_analyzedData[i], CURRDATA);
-                    //                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "THR_F1 / %04d ", p->c_analyzedData[i]);
+                    p->D_data.f_Data[i] = p->c_analyzedData[i];
+                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
                 }
             }
         }//end else if
@@ -160,6 +162,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 {
                     // current analyzed data를 저장함
                     p->c_analyzedData[front] = data[i];
+                	p->D_data.a_Data[i] = data[i];
 
                     // previous analyzed data 를 저장함
                     if( front > 0 )
@@ -176,7 +179,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 }
             }
 
-            if( p->a_flag == 1) {
+            if( p->a_flag == 1 ) {
                 int tmp_front = front - 1;  // front - 1 == recent p_analyzedData
                 int tmp_data = 0;
                 int displacement[2] = {0};
@@ -204,20 +207,23 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                         p->c_analyzedData[front] <= displacement[1] )
                 {
                     setFilterQdata(p, p->c_analyzedData[front], CURRDATA);
-                    //                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "DIO / %04f ", p->c_analyzedData[i]);
+                    p->D_data.f_Data[0] = p->c_analyzedData[front];
+//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
                 }
             }
         }//end else if
         else if( p->dev_id[0] == HANBACK_DUST_FRONT &&////////////////////////////////////////dustalgo
-                p->dev_id[1] == HANBACK_DUST_REAR)
+                p->dev_id[1] == HANBACK_DUST_REAR &&
+				(data[i] != 60 && data[i] != 0))
         {
             // p->p_analyzedData & p->c_analyzedData store
             for(i = 0; i < p->dev_datalen / 2; i++)
             {
-                if( front < MAX_BUFF_SIZE )
+                if( front < MAX_BUFF_SIZE)
                 {
                     // current analyzed data를 저장함
                     p->c_analyzedData[front] = data[i];
+                	p->D_data.a_Data[i] = data[i];
 
                     // previous analyzed data 를 저장함
                     if( front > 0 )
@@ -225,6 +231,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                     else if( front == 0 && rear != 0 )
                         p->p_analyzedData[MAX_BUFF_SIZE-1] = p->c_analyzedData[front];
 
+                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
                     front += 1;
                 }
                 else
@@ -234,7 +241,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 }
             }
 
-            if( p->a_flag == 1) {
+            if( p->a_flag == 1 ) {
                 int tmp_front = front - 1;  // front - 1 == recent p_analyzedData
                 int tmp_data = 0;
                 int displacement[2] = {0};
@@ -262,7 +269,8 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                         p->c_analyzedData[front] <= displacement[1] )
                 {
                     setFilterQdata(p, p->c_analyzedData[front], CURRDATA);
-                    //                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "DUS / %04f ", p->c_analyzedData[i]);
+                    p->D_data.f_Data[0] = p->c_analyzedData[front];
+                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
                 }
             }
         } //end for
@@ -276,6 +284,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 {
                     // current analyzed data를 저장함
                     p->c_analyzedData[front] = data[i];
+                	p->D_data.a_Data[i] = data[i];
 
                     // previous analyzed data 를 저장함
                     if( front > 0 )
@@ -291,7 +300,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 }
             }
 
-            if( p->a_flag == 1) {
+            if( p->a_flag == 1 ) {
                 int tmp_front = front - 1;  // front - 1 == recent p_analyzedData
                 int tmp_data = 0;
                 int displacement[2] = {0};
@@ -319,6 +328,8 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                         p->c_analyzedData[front] <= displacement[1] )
                 {
                     setFilterQdata(p, p->c_analyzedData[front], CURRDATA);
+                    p->D_data.f_Data[0] = p->c_analyzedData[front];
+//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
                 }
             }
         }
@@ -329,7 +340,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
 
     if(p->a_cnt < 10)
         p->a_cnt += 1;
-    else
+    else if( rear != 0 || front > 9 )
         p->a_flag = 1;
 
 }
@@ -352,11 +363,9 @@ int S_SummaryHanbackSensor(listNode* p, int index, int data)//data return
 
     if( (strcmp(p->dev_name,"Dioxide") == 0 ||
          strcmp(p->dev_name,"VOC") == 0 ||
-         strcmp(p->dev_name,"Dust") == 0) && data != 0)
+         strcmp(p->dev_name,"Dust") == 0) ||
+         strcmp(p->dev_name,"Thermometer") == 0 && data != 0)
     {
-        if( 0 == strcmp(p->dev_name,"Dust") )
-            ESMA_cnt = 20;
-
         if( data_cnt > 0)
         {
             if(data_cnt > ESMA_cnt)//데이터분석을 하기위해선 이전의 데이터가 필요하기 때문에
@@ -386,10 +395,6 @@ int S_SummaryHanbackSensor(listNode* p, int index, int data)//data return
             else
                 return data;
         }
-    }
-    else if(0 == strcmp(p->dev_name,"Thermometer") )
-    {
-        return data;
     }
 
     return 0;

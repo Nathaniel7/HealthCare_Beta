@@ -1,5 +1,4 @@
-/work/workspace/HealthCare_Beta/obj/local/armeabi/objs/HealthCare/src/system.o: \
- /work/workspace/HealthCare_Beta/jni/src/system.c \
+obj/local/armeabi/objs/HealthCare/src/system.o: jni/src/system.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/types.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdint.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/_types.h \

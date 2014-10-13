@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.KeyEvent;
 import android.widget.LinearLayout;
 
 import com.jjoe64.graphview.GraphView;
@@ -34,7 +35,7 @@ public class GraphViewActivity extends Activity {
 	GraphViewSeries series_vo;
 	GraphViewSeries series_th;
 	GraphViewSeries series_di;
-	
+
 	GraphViewData[] g_data_du = new GraphViewData[1];
 	GraphViewData[] g_data_vo = new GraphViewData[1];
 	GraphViewData[] g_data_th = new GraphViewData[1];
@@ -44,7 +45,7 @@ public class GraphViewActivity extends Activity {
 	int cnt_vo = 0;
 	int cnt_th = 0;
 	int cnt_di = 0;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -52,6 +53,7 @@ public class GraphViewActivity extends Activity {
 		setContentView(R.layout.graph_view);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -62,7 +64,6 @@ public class GraphViewActivity extends Activity {
 		series_du = new GraphViewSeries("Dust(ppb)", new GraphViewSeriesStyle(Color.rgb(49, 145, 232), 4), data);
 		series_vo = new GraphViewSeries("VOC(ppb)", new GraphViewSeriesStyle(Color.rgb(172, 60, 255), 4), data);
 		series_th = new GraphViewSeries("Thermometer(℃)", new GraphViewSeriesStyle(Color.rgb(232, 81, 69), 4), data);
-
 
 		GraphView graphView;
 		// Graph Title
@@ -125,4 +126,22 @@ public class GraphViewActivity extends Activity {
 			}
 		}).start();
 	}//end resume
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			// 첫번째 방법		
+			finish();
+			// 두번째 방법
+			System.exit(0);
+			// 세번째 방법
+			android.os.Process.killProcess(android.os.Process.myPid());
+
+			break;
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
 }

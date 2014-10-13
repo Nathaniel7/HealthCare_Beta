@@ -28,6 +28,13 @@ typedef struct Abstract
     int res_analyzeData[10];
 } AbstNode;
 
+typedef struct D_Data
+{
+	int a_Data[2];
+	int f_Data[2];
+	int s_Data[2];
+} D_OutData;
+
 typedef struct ListNode
 {
     int fd;
@@ -44,7 +51,7 @@ typedef struct ListNode
     char dev_end_bit[2];
 
     AbstNode dev_abs;
-
+    D_OutData D_data;
     ///////////////Read data////////////////////
     unsigned char q_data[5][MAX_BUFF_SIZE];//DCUR//q_data대신 다른 것으로 바꾸어야함.
 

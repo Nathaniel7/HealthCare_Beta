@@ -12,7 +12,7 @@ extern "C" {
  * Method:    Test
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_Test
+JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_Test
   (JNIEnv *, jclass);
 
 /*
@@ -20,7 +20,7 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_Test
  * Method:    TMconnectDevice
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TMconnectDevice
+JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TMconnectDevice
   (JNIEnv *, jclass);
 
 /*
@@ -28,7 +28,7 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TMconne
  * Method:    TFmakeDevthread
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TFmakeDevthread
+JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TFmakeDevthread
   (JNIEnv *, jclass);
 
 /*
@@ -36,7 +36,7 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TFmakeD
  * Method:    TSpressData
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpressData
+JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpressData
   (JNIEnv *, jclass);
 
 JNIEXPORT jintArray JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_getData

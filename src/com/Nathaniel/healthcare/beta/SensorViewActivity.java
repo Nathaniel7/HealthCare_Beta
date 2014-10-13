@@ -3,8 +3,9 @@ package com.Nathaniel.healthcare.beta;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.SystemClock;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +17,23 @@ public class SensorViewActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sensor_view);
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {//				
+				while(true) {
+					// 현재 UI 스레드가 아님으로 메시지 큐에 Runnable을 등록 함
+					runOnUiThread(new Runnable() {
+						public void run() {
+							onResume();
+						}
+					});
+					// 복잡한 작업 simulating	
+					SystemClock.sleep(250);
+				}
+
+			}
+		}).start();
 	}
 
 	@Override
@@ -62,7 +80,7 @@ public class SensorViewActivity extends Activity {
 			tv.setText("연결된 센서가 존재하지 않습니다.");
 			tv.setGravity(Gravity.CENTER);
 			layout_sensorlist.addView(tv);
-			Log.i("############", "..........");
+			//Log.i("############", "..........");
 		}
 
 		////////장치의 상태를 나타낸다 ////////////////
@@ -205,5 +223,22 @@ public class SensorViewActivity extends Activity {
 		}
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			// 첫번째 방법		
+			finish();
+			// 두번째 방법
+			System.exit(0);
+			// 세번째 방법
+			android.os.Process.killProcess(android.os.Process.myPid());
+
+			break;
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
 }
 

@@ -12,15 +12,16 @@
 
     ex) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", num);
    ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
-static int flag = 0;
-JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_Test(JNIEnv *env, jclass clazz)
+
+JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_Test(JNIEnv *env, jclass clazz)
 {
     //    char buff[100] = " > TEST";
     //    for(; i != 0; i--)
     //        LOGI((buff));
+	return 0;
 }
 
-JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TMconnectDevice(JNIEnv *env, jclass clazz)
+JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TMconnectDevice(JNIEnv *env, jclass clazz)
 {
     Node = createListNode_H();//장치의 링크드리스트를 만들기위해 헤드를 만듦
 
@@ -44,11 +45,13 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TMconne
             setDevHead(Node);
             newDevice_cnt++;
         }
-        sleep(1);
+        usleep(1000 * 100);
     }
+
+    return 0;
 }
 
-JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TFmakeDevthread(JNIEnv *env, jclass clazz)
+JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TFmakeDevthread(JNIEnv *env, jclass clazz)
 {
     int curDevice_cnt = 1;
     int thr_id;
@@ -93,15 +96,17 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TFmakeD
                 curDevice_cnt++;
             }
         }
-        usleep(10000);
+        usleep(1000 * 100);
     }//end while
+
+    return 0;
 }
 
-JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpressData(JNIEnv *env, jclass clazz)
+JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpressData(JNIEnv *env, jclass clazz)
 {
     //linkedlist 만들기
     listNode_h* Node;
-    listNode* p=NULL;
+    listNode* p = NULL;
     int i = 0;
     int data[2] = {0};//new
 
@@ -117,7 +122,8 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpress
         {
             if (p->f_getqueue_cnt > p->dev_datalen / 2 && p->dev_datalen / 2 != 0)
             {
-                for(i = 0; i < p->dev_datalen/2; i++)
+//                for(i = 0; i < p->dev_datalen/2; i++)
+            	for(i = 0; i < 1; i++)
                 {
                     data[i] = getFilterQdata(p, CURRDATA);
 
@@ -126,7 +132,10 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpress
                     if(data[i] = S_SummaryHanbackSensor(p, i, data[i]))
                     {
                         p->summarizedData[i] = data[i]; //current analyzed data를 저장함
-//                        __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "AAAA data: %d / %d", data[i], p->summarizedData[i]);
+                        p->dev_abs.res_analyzeData[i] = p->summarizedData[i];
+
+                        p->D_data.s_Data[i] = data[i];
+                        __android_log_print(ANDROID_LOG_INFO, "Data Output", "\t%d\t%d\t%d", p->D_data.a_Data[0], p->D_data.f_Data[0], p->D_data.s_Data[0]);
                     }
                     else
                     {
@@ -134,22 +143,14 @@ JNIEXPORT void JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpress
                         printf("\n[Error Filtering] : O\n");
                     }
                 }
-
-                p->dev_abs.res_sensor          = p->dev_id[0];
-                p->dev_abs.res_company         = p->dev_maker_id[0];
-                p->dev_abs.res_sensor_datalen  = p->dev_datalen;
-
-                for(i = 0; i < p->dev_datalen/2 && p->summarizedData[i] != -1; i++)
-                {
-                    p->dev_abs.res_analyzeData[i] = p->summarizedData[i];
-//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "Suma data: %d", p->summarizedData[i]);
-                }
             }
-            p = p ->next;
+            p = p->next;
         }//end while
 
-        usleep(100000);
+        usleep(1000 * 100);
     }//end while
+
+    return 0;
 }
 
 JNIEXPORT jintArray JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_getData(JNIEnv *env, jclass clazz)
