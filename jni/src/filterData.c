@@ -104,7 +104,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
     int value[2] = {0};     // measure data of readBuff
     int data[2] = {0};    //
 
-    int front = p->a_front;
+    int front = p->a_front;//현재 Queue의 front가 가리키는 위치는 빈 공간이기 때문에
     int rear = p->a_rear;
 
     if( strcmp(p->dev_maker,"HANBACK") == 0 )
@@ -122,11 +122,12 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
             //상위비트 하위비트 계산해서 하나의 데이터로 analyzed data 생성
             data[i] = (int)( ((0xFF & value[0])<<8) + (0xFF & value[1]) );
 
-            if(data[i] < 0)
-                data[i] = 0;
+            if( p->dev_id[0] == HANBACK_THRMMTR_FRONT &&
+            	p->dev_id[1] == HANBACK_THRMMTR_REAR &&
+				data[i] < 61)
+                return ;
 
-            if(0 == strcmp(p->dev_name,"VOC"))
-                data[i] /= 10;
+            __android_log_print(ANDROID_LOG_INFO, "Graph", "\t%d\t%d\t%d", p->D_data.a_Data[0], p->D_data.f_Data[0], p->D_data.s_Data[0]);
         }
 
         if( p->dev_id[0] == HANBACK_THRMMTR_FRONT &&
@@ -137,60 +138,59 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
             //            for(i = 0; i < p->dev_datalen / 2; i++) // Body Temp, Interior Temp store
             for(i = 0; i < p->dev_datalen / 4; i++) // Body Temp store
             {
-                p->c_analyzedData[i] = data[i];
+                p->analyzedData[i] = data[i];
             	p->D_data.a_Data[i] = data[i];
 
                 ////  2-2. Remove Outlier
-                // p->c_analyzedData[front] == Body Temperature
+                // p->analyzedData[front] == Body Temperature
                 // Fixed value: because body temperature is never high 40...
-                if( p->c_analyzedData[i] < 4500 &&
-                        p->c_analyzedData[i] > 0)
+                if( p->analyzedData[i] < 4500 &&
+                        p->analyzedData[i] > 0)
                 {
-                    setFilterQdata(p, p->c_analyzedData[i], CURRDATA);
-                    p->D_data.f_Data[i] = p->c_analyzedData[i];
-                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
+                    setFilterQdata(p, p->analyzedData[i], CURRDATA);
+                    p->D_data.f_Data[i] = p->analyzedData[i];
+//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->analyzedData[front]);
                 }
             }
         }//end else if
-        else if( p->dev_id[0] == HANBACK_DIOXIDE_FRONT &&
-                p->dev_id[1] == HANBACK_DIOXIDE_REAR)
+        else
         {
-            // p->p_analyzedData & p->c_analyzedData store
             for(i = 0; i < p->dev_datalen / 2; i++)
             {
                 if( front < MAX_BUFF_SIZE )
                 {
-                    // current analyzed data를 저장함
-                    p->c_analyzedData[front] = data[i];
+                    p->analyzedData[front] = data[i];
                 	p->D_data.a_Data[i] = data[i];
 
-                    // previous analyzed data 를 저장함
-                    if( front > 0 )
-                        p->p_analyzedData[front-1] = p->c_analyzedData[front-1];
-                    else if( front == 0 && rear != 0 )
-                        p->p_analyzedData[MAX_BUFF_SIZE-1] = p->c_analyzedData[front];
-
-                    front += 1;
+                    front++;
                 }
                 else
                 {
                     front = 0;
-                    rear += 1;
+                    rear++;
                 }
             }
 
             if( p->a_flag == 1 ) {
-                int tmp_front = front - 1;  // front - 1 == recent p_analyzedData
                 int tmp_data = 0;
                 int displacement[2] = {0};
+
+                int tmp_front = 0;
+
+                if(front > 1)
+                	tmp_front = front-2; // front - 1 == recent previous analyzedData
+                else if(p->f_cfront == 1)
+                	tmp_front = MAX_BUFF_SIZE-1;
+                else
+                	tmp_front = MAX_BUFF_SIZE-2;
 
                 for(i = 0; i < 10; i++)
                 {
                     if(tmp_front > 0 && tmp_front < MAX_BUFF_SIZE)
-                        tmp_data += abs(p->p_analyzedData[tmp_front]) - abs(p->p_analyzedData[tmp_front-1]);
+                        tmp_data += abs(p->analyzedData[tmp_front] - p->analyzedData[tmp_front-1]);
                     else {
                         tmp_front = 0;
-                        tmp_data += abs(p->p_analyzedData[tmp_front]) - abs(p->p_analyzedData[MAX_BUFF_SIZE-1]);
+                        tmp_data += abs(p->analyzedData[tmp_front] - p->analyzedData[MAX_BUFF_SIZE-1]);
                     }
                     tmp_front++;
                 }
@@ -199,137 +199,17 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 tmp_data /= i-1;
 
                 // displacement calculation
-                displacement[0] = p->p_analyzedData[front] - tmp_data;
-                displacement[1] = p->p_analyzedData[front] + tmp_data;
+                displacement[0] = p->analyzedData[front-1] - tmp_data;
+                displacement[1] = p->analyzedData[front-1] + tmp_data;
 
                 // Filter Data
-                if( p->c_analyzedData[front] >= displacement[0] &&
-                        p->c_analyzedData[front] <= displacement[1] )
+                if( p->analyzedData[front-1] >= displacement[0] &&
+                    p->analyzedData[front-1] <= displacement[1] &&
+					p->analyzedData[front-1] > 60)
                 {
-                    setFilterQdata(p, p->c_analyzedData[front], CURRDATA);
-                    p->D_data.f_Data[0] = p->c_analyzedData[front];
-//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
-                }
-            }
-        }//end else if
-        else if( p->dev_id[0] == HANBACK_DUST_FRONT &&////////////////////////////////////////dustalgo
-                p->dev_id[1] == HANBACK_DUST_REAR &&
-				(data[i] != 60 && data[i] != 0))
-        {
-            // p->p_analyzedData & p->c_analyzedData store
-            for(i = 0; i < p->dev_datalen / 2; i++)
-            {
-                if( front < MAX_BUFF_SIZE)
-                {
-                    // current analyzed data를 저장함
-                    p->c_analyzedData[front] = data[i];
-                	p->D_data.a_Data[i] = data[i];
-
-                    // previous analyzed data 를 저장함
-                    if( front > 0 )
-                        p->p_analyzedData[front-1] = p->c_analyzedData[front-1];
-                    else if( front == 0 && rear != 0 )
-                        p->p_analyzedData[MAX_BUFF_SIZE-1] = p->c_analyzedData[front];
-
-                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
-                    front += 1;
-                }
-                else
-                {
-                    front = 0;
-                    rear += 1;
-                }
-            }
-
-            if( p->a_flag == 1 ) {
-                int tmp_front = front - 1;  // front - 1 == recent p_analyzedData
-                int tmp_data = 0;
-                int displacement[2] = {0};
-
-                for(i = 0; i < 10; i++)
-                {
-                    if(tmp_front > 0 && tmp_front < MAX_BUFF_SIZE)
-                        tmp_data += abs(p->p_analyzedData[tmp_front]) - abs(p->p_analyzedData[tmp_front-1]);
-                    else {
-                        tmp_front = 0;
-                        tmp_data += abs(p->p_analyzedData[tmp_front]) - abs(p->p_analyzedData[MAX_BUFF_SIZE-1]);
-                    }
-                    tmp_front++;
-                }
-
-                // "i" is window size : n-1 == 9
-                tmp_data /= i-1;
-
-                // displacement calculation
-                displacement[0] = p->p_analyzedData[front] - tmp_data;
-                displacement[1] = p->p_analyzedData[front] + tmp_data;
-
-                // Filter Data
-                if( p->c_analyzedData[front] >= displacement[0] &&
-                        p->c_analyzedData[front] <= displacement[1] )
-                {
-                    setFilterQdata(p, p->c_analyzedData[front], CURRDATA);
-                    p->D_data.f_Data[0] = p->c_analyzedData[front];
-                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
-                }
-            }
-        } //end for
-        else if(p->dev_id[0] == HANBACK_VOC_FRONT &&////////////////////////////////////////vocalgo
-                p->dev_id[1] == HANBACK_VOC_REAR)
-        {
-            // p->p_analyzedData & p->c_analyzedData store
-            for(i = 0; i < p->dev_datalen / 2; i++)
-            {
-                if( front < MAX_BUFF_SIZE )
-                {
-                    // current analyzed data를 저장함
-                    p->c_analyzedData[front] = data[i];
-                	p->D_data.a_Data[i] = data[i];
-
-                    // previous analyzed data 를 저장함
-                    if( front > 0 )
-                        p->p_analyzedData[front-1] = p->c_analyzedData[front-1];
-                    else if( front == 0 && rear != 0 )
-                        p->p_analyzedData[MAX_BUFF_SIZE-1] = p->c_analyzedData[front];
-                    front += 1;
-                }
-                else
-                {
-                    front = 0;
-                    rear += 1;
-                }
-            }
-
-            if( p->a_flag == 1 ) {
-                int tmp_front = front - 1;  // front - 1 == recent p_analyzedData
-                int tmp_data = 0;
-                int displacement[2] = {0};
-
-                for(i = 0; i < 10; i++)
-                {
-                    if(tmp_front > 0 && tmp_front < MAX_BUFF_SIZE)
-                        tmp_data += abs(p->p_analyzedData[tmp_front]) - abs(p->p_analyzedData[tmp_front-1]);
-                    else {
-                        tmp_front = 0;
-                        tmp_data += abs(p->p_analyzedData[tmp_front]) - abs(p->p_analyzedData[MAX_BUFF_SIZE-1]);
-                    }
-                    tmp_front++;
-                }
-
-                // "i" is window size : n-1 == 9
-                tmp_data /= i-1;
-
-                // displacement calculation
-                displacement[0] = p->p_analyzedData[front] - tmp_data;
-                displacement[1] = p->p_analyzedData[front] + tmp_data;
-
-                // Filter Data
-                if( p->c_analyzedData[front] >= displacement[0] &&
-                        p->c_analyzedData[front] <= displacement[1] )
-                {
-                    setFilterQdata(p, p->c_analyzedData[front], CURRDATA);
-                    p->D_data.f_Data[0] = p->c_analyzedData[front];
-//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->c_analyzedData[front]);
+                    setFilterQdata(p, p->analyzedData[front-1], CURRDATA);
+                    p->D_data.f_Data[0] = p->analyzedData[front-1];
+                    __android_log_print(ANDROID_LOG_INFO, "Displacement", "\t%d <= %d <= %d", displacement[0], p->analyzedData[front-1], displacement[1]);
                 }
             }
         }
@@ -345,7 +225,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
 
 }
 
-int S_SummaryHanbackSensor(listNode* p, int index, int data)//data return
+int S_SummaryHanbackSensor(listNode* p, int index)//data return
 {
     int ESMA = 0;//지수이동평균을 구하는 값입니다. 사용할 데이터의 갯수는 10으로 한다.
     int SMA = 0;//이동평균을 구하는 값입니다. 사용할 데이터의 갯수는 10으로 한다.
@@ -356,15 +236,30 @@ int S_SummaryHanbackSensor(listNode* p, int index, int data)//data return
 
     int data_cnt = p->f_read_cnt-1; //데이터를 받은 횟수입니다 정확도를 위하여 -2를 합니다 (처음 리드시 0이 나오므로)
     int i = 0;
-    int front = p->f_cfront-1;//현재 Queue의 front가 가리키는 위치는 빈 공간이기 때문에
     int invalid_data_cnt = 0;//데이터가 0이 들어올 경우를 예외처리하기 위한 변수
+
+    int front = 0;//현재 Queue의 front가 가리키는 위치는 빈 공간이기 때문에
+    int tmp_front = 0;
+
+    if(p->f_cfront > 1) {
+    	front = p->f_cfront-1;
+    	tmp_front = p->f_cfront-2;
+    }
+    else if(p->f_cfront == 1) {
+    	front = p->f_cfront-1;
+    	tmp_front = MAX_BUFF_SIZE-1;
+    }
+    else {
+    	front = MAX_BUFF_SIZE-1;
+    	tmp_front = MAX_BUFF_SIZE-2;
+    }
 
     //    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "Summary data / %04d", data);
 
     if( (strcmp(p->dev_name,"Dioxide") == 0 ||
          strcmp(p->dev_name,"VOC") == 0 ||
          strcmp(p->dev_name,"Dust") == 0) ||
-         strcmp(p->dev_name,"Thermometer") == 0 && data != 0)
+         strcmp(p->dev_name,"Thermometer") == 0)
     {
         if( data_cnt > 0)
         {
@@ -372,28 +267,29 @@ int S_SummaryHanbackSensor(listNode* p, int index, int data)//data return
             {
                 for(i = 0; i < ESMA_cnt; i++)//SMA를 구하는 과정 현재 recv한 데이터는 더하지 않는다 또 큐에 존재하지 않는다.
                 {
-                    if(front >= 0)
+                    if(tmp_front >= 0)
                     {
-                        totalQueueData[0] += p->c_filteredData[front];
+                        totalQueueData[0] += p->c_filteredData[tmp_front];
                     }
                     else
                     {
-                        front = MAX_BUFF_SIZE-1;
-                        totalQueueData[0] += p->c_filteredData[front];
+                    	tmp_front = MAX_BUFF_SIZE-1;
+                        totalQueueData[0] += p->c_filteredData[tmp_front];
                     }
 
-                    front--;
+                    tmp_front--;
                 }
                 SMA = totalQueueData[0] / (ESMA_cnt); //전일 데이터이므로
 
                 if (SMA > 0)
-                    ESMA = data * (float) 2 / (ESMA_cnt + 1) + SMA * (1 - (float) 2 / (ESMA_cnt + 1));
+                    ESMA = p->c_filteredData[front] * (float)2 / (ESMA_cnt + 1) + SMA * (1 - (float)2 / (ESMA_cnt + 1));
 
+                __android_log_print(ANDROID_LOG_INFO, "Summary", "c_Data: %d\t SMA: %d\t ESMA: %d", p->c_filteredData[front], SMA, ESMA);
 
                 return ESMA;
             }
             else
-                return data;
+                return p->c_filteredData[front];
         }
     }
 

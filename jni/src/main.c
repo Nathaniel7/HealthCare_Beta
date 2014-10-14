@@ -125,17 +125,13 @@ JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpress
 //                for(i = 0; i < p->dev_datalen/2; i++)
             	for(i = 0; i < 1; i++)
                 {
-                    data[i] = getFilterQdata(p, CURRDATA);
-
                     //#WARNING# FILTER_OPT_FILTER일경우 1만 반환 FILTER_OPTNONFILTERED라면 에러데이터는 0반환
                     // error Data는 -1로 표기되므로 그를 고려하여서 폐기하여야 한다.
-                    if(data[i] = S_SummaryHanbackSensor(p, i, data[i]))
+                    if(data[i] = S_SummaryHanbackSensor(p, i))
                     {
                         p->summarizedData[i] = data[i]; //current analyzed data를 저장함
                         p->dev_abs.res_analyzeData[i] = p->summarizedData[i];
-
                         p->D_data.s_Data[i] = data[i];
-                        __android_log_print(ANDROID_LOG_INFO, "Data Output", "\t%d\t%d\t%d", p->D_data.a_Data[0], p->D_data.f_Data[0], p->D_data.s_Data[0]);
                     }
                     else
                     {

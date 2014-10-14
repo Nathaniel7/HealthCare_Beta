@@ -69,8 +69,7 @@ typedef struct ListNode
     unsigned char p_buf[MAX_BUFF_SIZE];
 
     ////////Analyzed data////////
-    int c_analyzedData[MAX_BUFF_SIZE];
-    int p_analyzedData[MAX_BUFF_SIZE];
+    int analyzedData[MAX_BUFF_SIZE];
     int a_front;
     int a_rear;
     int a_flag;

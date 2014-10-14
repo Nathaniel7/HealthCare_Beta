@@ -12,11 +12,6 @@
 //#define FILTER_OPT_NONFILTERD	6
 //#define FILTER_OPT_FILTER		7
 
-void D_HBACK_Thermometer(listNode *);
-void D_HBACK_Dioxide(listNode *);
-void D_HBACK_Weather(listNode *);
-void D_HBACK_Dust(listNode *);
-
 void D_printRawData(listNode* N,int data_opt);
 void D_printQueueData(listNode* N,int data_opt);
 void D_printUserData(listNode* N,int data_opt);
