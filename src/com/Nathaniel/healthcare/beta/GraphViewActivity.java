@@ -12,6 +12,7 @@ import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphView.LegendAlign;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
+import com.jjoe64.graphview.GraphViewStyle.GridStyle;
 import com.jjoe64.graphview.LineGraphView;
 
 public class GraphViewActivity extends Activity {
@@ -30,7 +31,10 @@ public class GraphViewActivity extends Activity {
 
 	double v = 0;
 	int[] sensors = new int[1000];
-
+	
+	LineGraphView graphLine;
+	GraphView graphView;
+		
 	GraphViewSeries series_du;
 	GraphViewSeries series_vo;
 	GraphViewSeries series_th;
@@ -53,11 +57,31 @@ public class GraphViewActivity extends Activity {
 		setContentView(R.layout.graph_view);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+
+		// Graph Title
+		graphLine = new LineGraphView(this, "Sensors Graph");
+		
+		graphView = graphLine;
+		graphView.setViewPort(0, 500);	// first view start~end location  
+		graphView.setScalable(true);	// enable scrolling and zoom
+		graphView.setScrollable(true);
+
+		// optional - legend
+		graphView.setShowLegend(true);
+		graphView.setLegendAlign(LegendAlign.MIDDLE);	// Legend location
+		graphView.setManualYAxisBounds(5000, 0);
+		graphView.getGraphViewStyle().setLegendWidth(290);	// Legend Width
+		graphView.getGraphViewStyle().setLegendSpacing(10);	// Legend Space
+		graphView.getGraphViewStyle().setGridColor(Color.rgb(200, 200, 200));
+		graphView.getGraphViewStyle().setVerticalLabelsWidth(80);
+		graphView.setHorizontalLabels(new String[] {"", "Time", ""});
+		graphView.getGraphViewStyle().setNumVerticalLabels(11);		// the number of Y-axis Label
+		graphView.getGraphViewStyle().setGridStyle(GridStyle.BOTH);
+
 		GraphViewData[] data = new GraphViewData[1];
 		data[0] = new GraphViewData(0, 0);
 		series_di = new GraphViewSeries("Dioxide(ppm)", new GraphViewSeriesStyle(Color.rgb(255, 139, 60), 4), data);
@@ -65,25 +89,12 @@ public class GraphViewActivity extends Activity {
 		series_vo = new GraphViewSeries("VOC(ppb)", new GraphViewSeriesStyle(Color.rgb(172, 60, 255), 4), data);
 		series_th = new GraphViewSeries("Thermometer(℃)", new GraphViewSeriesStyle(Color.rgb(232, 81, 69), 4), data);
 
-		GraphView graphView;
-		// Graph Title
-		graphView = new LineGraphView(this, "Sensors Graph");
-
 		// add data
 		graphView.addSeries(series_di);
 		graphView.addSeries(series_du);
 		graphView.addSeries(series_vo);
 		graphView.addSeries(series_th);
-
-
-		graphView.setViewPort(0, 500);	// first view start~end location  
-		graphView.setScalable(true);	// enable scrolling and zoom
-
-		// optional - legend
-		graphView.setShowLegend(true);
-		graphView.setLegendAlign(LegendAlign.MIDDLE);	// Legend location
-		graphView.setLegendWidth(290);				// Legend Width
-
+		
 		LinearLayout layout = (LinearLayout)findViewById(R.id.graph_sub_layout);
 		layout = (LinearLayout) findViewById(R.id.graph_layout);
 		layout.addView(graphView);
@@ -112,7 +123,7 @@ public class GraphViewActivity extends Activity {
 									cnt_vo++;
 									break;
 								case HANBACK_THRMMTR_FRONT:
-									series_th.appendData(new GraphViewData(cnt_th+1, sensors[i+4] / 100.0), true, 1000);
+									series_th.appendData(new GraphViewData(cnt_th+1, sensors[i+4]), true, 1000);
 									cnt_th++;
 									break;
 								}
@@ -122,7 +133,6 @@ public class GraphViewActivity extends Activity {
 					// 복잡한 작업 simulating	
 					SystemClock.sleep(250);
 				}
-
 			}
 		}).start();
 	}//end resume

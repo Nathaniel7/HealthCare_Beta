@@ -127,7 +127,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
 				data[i] < 61)
                 return ;
 
-            __android_log_print(ANDROID_LOG_INFO, "Graph", "\t%d\t%d\t%d", p->D_data.a_Data[0], p->D_data.f_Data[0], p->D_data.s_Data[0]);
+            __android_log_print(ANDROID_LOG_INFO, "GraphData", "\t%d\t%d\t%d", p->D_data.a_Data[0], p->D_data.f_Data[0], p->D_data.s_Data[0]);
         }
 
         if( p->dev_id[0] == HANBACK_THRMMTR_FRONT &&
@@ -284,7 +284,7 @@ int S_SummaryHanbackSensor(listNode* p, int index)//data return
                 if (SMA > 0)
                     ESMA = p->c_filteredData[front] * (float)2 / (ESMA_cnt + 1) + SMA * (1 - (float)2 / (ESMA_cnt + 1));
 
-                __android_log_print(ANDROID_LOG_INFO, "Summary", "c_Data: %d\t SMA: %d\t ESMA: %d", p->c_filteredData[front], SMA, ESMA);
+//                __android_log_print(ANDROID_LOG_INFO, "Summary", "c_Data: %d\t SMA: %d\t ESMA: %d", p->c_filteredData[front], SMA, ESMA);
 
                 return ESMA;
             }

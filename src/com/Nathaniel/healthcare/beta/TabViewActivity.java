@@ -1,7 +1,5 @@
 package com.Nathaniel.healthcare.beta;
 
-import java.io.IOException;
-
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -25,12 +23,12 @@ public class TabViewActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_host);
 
-		try {
-			Runtime.getRuntime().exec("su");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Runtime.getRuntime().exec("su");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		//		TTD.start();
 		TM.start();
@@ -46,7 +44,7 @@ public class TabViewActivity extends TabActivity {
 		intent = new Intent().setClass(this, GraphViewActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("Graph").setContent(intent));
 
-		tabHost.setCurrentTab(0);
+		tabHost.setCurrentTab(1);
 	}
 
 	@Override
