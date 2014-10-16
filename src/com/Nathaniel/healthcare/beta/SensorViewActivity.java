@@ -83,10 +83,6 @@ public class SensorViewActivity extends Activity {
 			//Log.i("############", "..........");
 		}
 
-		////////장치의 상태를 나타낸다 ////////////////
-		final int STATE_WORST = 0;
-		final int STATE_GOOD = 1;
-		final int STATE_WAIT = 2;
 		//////센서가 출저회사를 나타낸다 ////////////////
 		final int COMPANY_HANBACK = 0x76;
 		///////센서의 종류를 나타낸다///////
@@ -136,13 +132,13 @@ public class SensorViewActivity extends Activity {
 					case COMPANY_HANBACK:
 //						Log.i("#######", "HANBACK ELECTRONIC");
 						tv_content[j-1] = new TextView(this);
-						tv_content[j-1].setText("HANBACK");
+						tv_content[j-1].setText("   HANBACK");
 						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f));
 						break;
 					default:
 //						Log.i("#######", "Unknown Company");
 						tv_content[j-1] = new TextView(this);
-						tv_content[j-1].setText("Unknown");
+						tv_content[j-1].setText("   Unknown");
 						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f));
 						break;
 					}

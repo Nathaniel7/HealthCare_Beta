@@ -1,10 +1,12 @@
 package com.Nathaniel.healthcare.beta;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.KeyEvent;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.jjoe64.graphview.GraphView;
@@ -15,6 +17,7 @@ import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
 import com.jjoe64.graphview.GraphViewStyle.GridStyle;
 import com.jjoe64.graphview.LineGraphView;
 
+@SuppressLint("NewApi")
 public class GraphViewActivity extends Activity {
 	////////장치의 상태를 나타낸다 ////////////////
 	final int STATE_WORST = 0;
@@ -32,8 +35,10 @@ public class GraphViewActivity extends Activity {
 	double v = 0;
 	int[] sensors = new int[1000];
 	
-	LineGraphView graphLine;
-	GraphView graphView;
+	GraphView graphView01;
+	GraphView graphView02;
+	GraphView graphView03;
+	GraphView graphView04;
 		
 	GraphViewSeries series_du;
 	GraphViewSeries series_vo;
@@ -45,59 +50,80 @@ public class GraphViewActivity extends Activity {
 	GraphViewData[] g_data_th = new GraphViewData[1];
 	GraphViewData[] g_data_di = new GraphViewData[1];
 
+	int cnt_th = 0;
 	int cnt_du = 0;
 	int cnt_vo = 0;
-	int cnt_th = 0;
 	int cnt_di = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.graph_view);
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 
-		// Graph Title
-		graphLine = new LineGraphView(this, "Sensors Graph");
+		// setGraphView(title, maxY_axis, minY_axis, num_Label, line_under_color);
+		graphView01 = setGraphView("Thermometer(℃)"	, 100, 0, 6, Color.rgb(232, 168, 163));
+		graphView02 = setGraphView("Dust(ppb)", 600, 0, 6, Color.rgb(142, 189, 232));
+		graphView03 = setGraphView("VOC(ppb)", 1000, 0, 6, Color.rgb(216, 164, 255));
+		graphView04 = setGraphView("Dioxide(ppm)", 2500, 0, 6, Color.rgb(255, 201, 164));
 		
-		graphView = graphLine;
-		graphView.setViewPort(0, 500);	// first view start~end location  
-		graphView.setScalable(true);	// enable scrolling and zoom
-		graphView.setScrollable(true);
-
-		// optional - legend
-		graphView.setShowLegend(true);
-		graphView.setLegendAlign(LegendAlign.MIDDLE);	// Legend location
-		graphView.setManualYAxisBounds(5000, 0);
-		graphView.getGraphViewStyle().setLegendWidth(290);	// Legend Width
-		graphView.getGraphViewStyle().setLegendSpacing(10);	// Legend Space
-		graphView.getGraphViewStyle().setGridColor(Color.rgb(200, 200, 200));
-		graphView.getGraphViewStyle().setVerticalLabelsWidth(80);
-		graphView.setHorizontalLabels(new String[] {"", "Time", ""});
-		graphView.getGraphViewStyle().setNumVerticalLabels(11);		// the number of Y-axis Label
-		graphView.getGraphViewStyle().setGridStyle(GridStyle.BOTH);
-
 		GraphViewData[] data = new GraphViewData[1];
 		data[0] = new GraphViewData(0, 0);
-		series_di = new GraphViewSeries("Dioxide(ppm)", new GraphViewSeriesStyle(Color.rgb(255, 139, 60), 4), data);
+		series_th = new GraphViewSeries("Thermometer", new GraphViewSeriesStyle(Color.rgb(232, 81, 69), 4), data);
 		series_du = new GraphViewSeries("Dust(ppb)", new GraphViewSeriesStyle(Color.rgb(49, 145, 232), 4), data);
 		series_vo = new GraphViewSeries("VOC(ppb)", new GraphViewSeriesStyle(Color.rgb(172, 60, 255), 4), data);
-		series_th = new GraphViewSeries("Thermometer(℃)", new GraphViewSeriesStyle(Color.rgb(232, 81, 69), 4), data);
+		series_di = new GraphViewSeries("Dioxide(ppm)", new GraphViewSeriesStyle(Color.rgb(255, 139, 60), 4), data);
 
-		// add data
-		graphView.addSeries(series_di);
-		graphView.addSeries(series_du);
-		graphView.addSeries(series_vo);
-		graphView.addSeries(series_th);
+		graphView01.addSeries(series_th);
+//		graphView01.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f));
+		graphView02.addSeries(series_du);
+//		graphView02.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f));
+		graphView03.addSeries(series_vo);
+//		graphView03.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f));
+		graphView04.addSeries(series_di);
+//		graphView04.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f));
 		
-		LinearLayout layout = (LinearLayout)findViewById(R.id.graph_sub_layout);
-		layout = (LinearLayout) findViewById(R.id.graph_layout);
-		layout.addView(graphView);
+		
+		LinearLayout sub_layout_graph1 = new LinearLayout(this);
+		sub_layout_graph1.setBackgroundColor(Color.rgb(255, 255, 255));
+		sub_layout_graph1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
+		sub_layout_graph1.addView(graphView01);
+		
+		LinearLayout sub_layout_graph2 = new LinearLayout(this);
+		sub_layout_graph2.setBackgroundColor(Color.rgb(225, 225, 225));
+		sub_layout_graph2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
+		sub_layout_graph2.addView(graphView02);
+		
+		LinearLayout sub_layout_graph3 = new LinearLayout(this);
+		sub_layout_graph3.setBackgroundColor(Color.rgb(225, 225, 225));
+		sub_layout_graph3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
+		sub_layout_graph3.addView(graphView03);
+		
+		LinearLayout sub_layout_graph4 = new LinearLayout(this);
+		sub_layout_graph4.setBackgroundColor(Color.rgb(255, 255, 255));
+		sub_layout_graph4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
+		sub_layout_graph4.addView(graphView04);
+		
+		LinearLayout layout_graph1 = new LinearLayout(this);
+		layout_graph1.setOrientation(LinearLayout.HORIZONTAL);
+		layout_graph1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
+		layout_graph1.addView(sub_layout_graph1);
+		layout_graph1.addView(sub_layout_graph2);
+		
+		LinearLayout layout_graph2 = new LinearLayout(this);
+		layout_graph2.setOrientation(LinearLayout.HORIZONTAL);
+		layout_graph2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
+		layout_graph2.addView(sub_layout_graph3);
+		layout_graph2.addView(sub_layout_graph4);
+		
+		LinearLayout layout = (LinearLayout) findViewById(R.id.graph_layout);
+		layout.addView(layout_graph1);
+		layout.addView(layout_graph2);
+		
 
 		new Thread(new Runnable() {
 			@Override
@@ -119,11 +145,11 @@ public class GraphViewActivity extends Activity {
 									cnt_du++;
 									break;
 								case HANBACK_VOC_FRONT:
-									series_vo.appendData(new GraphViewData(cnt_vo+1, sensors[i+4]), true, 1000);
+									series_vo.appendData(new GraphViewData(cnt_vo+1, sensors[i+4]/10), true, 1000);
 									cnt_vo++;
 									break;
 								case HANBACK_THRMMTR_FRONT:
-									series_th.appendData(new GraphViewData(cnt_th+1, sensors[i+4]), true, 1000);
+									series_th.appendData(new GraphViewData(cnt_th+1, sensors[i+4]/100), true, 1000);
 									cnt_th++;
 									break;
 								}
@@ -154,4 +180,35 @@ public class GraphViewActivity extends Activity {
 
 		return super.onKeyDown(keyCode, event);
 	}
+	
+	public GraphView setGraphView(String title, int maxY_axis, int minY_axis, int num_Label, int line_under_color)
+	{
+		LineGraphView lineView = new LineGraphView(this, title);
+		lineView.setDrawBackground(true);
+		lineView.setBackgroundColor(line_under_color);
+	
+		GraphView graphView;
+		graphView = lineView;
+		graphView.setViewPort(0, 200);	// first view start~end location  
+		graphView.setScalable(true);	// enable scrolling and zoom
+		graphView.setScrollable(true);
+		graphView.setShowLegend(false);
+//		graphView.setShowLegend(true);
+		graphView.setManualYAxisBounds(maxY_axis, minY_axis);
+		graphView.setLegendAlign(LegendAlign.BOTTOM);				// Legend location
+//		graphView.getGraphViewStyle().setLegendWidth(250);			// Legend Width
+//		graphView.getGraphViewStyle().setLegendMarginBottom(10);	// Legend Width
+//		graphView.getGraphViewStyle().setLegendSpacing(10);			// Legends Space
+		graphView.getGraphViewStyle().setGridColor(Color.rgb(100, 100, 100));
+		graphView.setHorizontalLabels(new String[] {"", "Time", ""});
+		graphView.getGraphViewStyle().setTextSize(25);
+		graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
+		graphView.getGraphViewStyle().setVerticalLabelsColor(Color.rgb(50, 50, 50));
+		graphView.getGraphViewStyle().setVerticalLabelsWidth(80);
+		graphView.getGraphViewStyle().setNumVerticalLabels(num_Label);		// the number of Y-axis Label
+		graphView.getGraphViewStyle().setGridStyle(GridStyle.BOTH);
+		
+		return graphView;
+	}
 }
+

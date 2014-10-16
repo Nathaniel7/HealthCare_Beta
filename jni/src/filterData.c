@@ -127,7 +127,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
 				data[i] < 61)
                 return ;
 
-            __android_log_print(ANDROID_LOG_INFO, "GraphData", "\t%d\t%d\t%d", p->D_data.a_Data[0], p->D_data.f_Data[0], p->D_data.s_Data[0]);
+//            __android_log_print(ANDROID_LOG_INFO, "GraphData", "\t%d\t%d\t%d", p->D_data.a_Data[0], p->D_data.f_Data[0], p->D_data.s_Data[0]);
         }
 
         if( p->dev_id[0] == HANBACK_THRMMTR_FRONT &&
@@ -144,7 +144,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 ////  2-2. Remove Outlier
                 // p->analyzedData[front] == Body Temperature
                 // Fixed value: because body temperature is never high 40...
-                if( p->analyzedData[i] < 4500 &&
+                if( p->analyzedData[i] < 5000 &&
                         p->analyzedData[i] > 0)
                 {
                     setFilterQdata(p, p->analyzedData[i], CURRDATA);
@@ -209,7 +209,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 {
                     setFilterQdata(p, p->analyzedData[front-1], CURRDATA);
                     p->D_data.f_Data[0] = p->analyzedData[front-1];
-                    __android_log_print(ANDROID_LOG_INFO, "Displacement", "\t%d <= %d <= %d", displacement[0], p->analyzedData[front-1], displacement[1]);
+//                    __android_log_print(ANDROID_LOG_INFO, "Displacement", "\t%d <= %d <= %d", displacement[0], p->analyzedData[front-1], displacement[1]);
                 }
             }
         }

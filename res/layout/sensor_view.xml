@@ -10,13 +10,6 @@
         android:layout_height="wrap_content"
         android:background="#FF6A6A"
         android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal"
-            android:weightSum="1" >
-        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
