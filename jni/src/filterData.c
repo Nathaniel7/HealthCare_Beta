@@ -176,39 +176,45 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 int displacement[2] = {0};
 
                 int tmp_front = 0;
+                int c_front = 0;
+                int p_front = 0;
 
                 if(front > 1)
                 	tmp_front = front-2; // front - 1 == recent previous analyzedData
-                else if(p->f_cfront == 1)
+                else if(front == 1)
                 	tmp_front = MAX_BUFF_SIZE-1;
                 else
                 	tmp_front = MAX_BUFF_SIZE-2;
+
+                // previous front
+                c_front = front-1;
+                p_front = tmp_front;
 
                 for(i = 0; i < 10; i++)
                 {
                     if(tmp_front > 0 && tmp_front < MAX_BUFF_SIZE)
                         tmp_data += abs(p->analyzedData[tmp_front] - p->analyzedData[tmp_front-1]);
                     else {
-                        tmp_front = 0;
                         tmp_data += abs(p->analyzedData[tmp_front] - p->analyzedData[MAX_BUFF_SIZE-1]);
+                        tmp_front = MAX_BUFF_SIZE-1;
                     }
-                    tmp_front++;
+                    tmp_front--;
                 }
 
                 // "i" is window size : n-1 == 9
                 tmp_data /= i-1;
 
                 // displacement calculation
-                displacement[0] = p->analyzedData[front-1] - tmp_data;
-                displacement[1] = p->analyzedData[front-1] + tmp_data;
+                displacement[0] = p->analyzedData[p_front] - tmp_data;
+                displacement[1] = p->analyzedData[p_front] + tmp_data;
 
                 // Filter Data
-                if( p->analyzedData[front-1] >= displacement[0] &&
-                    p->analyzedData[front-1] <= displacement[1] &&
-					p->analyzedData[front-1] > 60)
+                if( p->analyzedData[c_front] >= displacement[0] &&
+                    p->analyzedData[c_front] <= displacement[1] &&
+					p->analyzedData[c_front] > 60)
                 {
-                    setFilterQdata(p, p->analyzedData[front-1], CURRDATA);
-                    p->D_data.f_Data[0] = p->analyzedData[front-1];
+                    setFilterQdata(p, p->analyzedData[c_front], CURRDATA);
+                    p->D_data.f_Data[0] = p->analyzedData[c_front];
 //                    __android_log_print(ANDROID_LOG_INFO, "Displacement", "\t%d <= %d <= %d", displacement[0], p->analyzedData[front-1], displacement[1]);
                 }
             }

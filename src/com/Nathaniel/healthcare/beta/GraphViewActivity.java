@@ -94,12 +94,12 @@ public class GraphViewActivity extends Activity {
 		sub_layout_graph1.addView(graphView01);
 		
 		LinearLayout sub_layout_graph2 = new LinearLayout(this);
-		sub_layout_graph2.setBackgroundColor(Color.rgb(225, 225, 225));
+		sub_layout_graph2.setBackgroundColor(Color.rgb(230, 230, 230));
 		sub_layout_graph2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
 		sub_layout_graph2.addView(graphView02);
 		
 		LinearLayout sub_layout_graph3 = new LinearLayout(this);
-		sub_layout_graph3.setBackgroundColor(Color.rgb(225, 225, 225));
+		sub_layout_graph3.setBackgroundColor(Color.rgb(230, 230, 230));
 		sub_layout_graph3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
 		sub_layout_graph3.addView(graphView03);
 		
@@ -193,20 +193,22 @@ public class GraphViewActivity extends Activity {
 		graphView.setScalable(true);	// enable scrolling and zoom
 		graphView.setScrollable(true);
 		graphView.setShowLegend(false);
+		graphView.setDisableTouch(true);
 //		graphView.setShowLegend(true);
 		graphView.setManualYAxisBounds(maxY_axis, minY_axis);
 		graphView.setLegendAlign(LegendAlign.BOTTOM);				// Legend location
 //		graphView.getGraphViewStyle().setLegendWidth(250);			// Legend Width
 //		graphView.getGraphViewStyle().setLegendMarginBottom(10);	// Legend Width
 //		graphView.getGraphViewStyle().setLegendSpacing(10);			// Legends Space
+		graphView.getGraphViewStyle().setGridStyle(GridStyle.BOTH);
 		graphView.getGraphViewStyle().setGridColor(Color.rgb(100, 100, 100));
+
 		graphView.setHorizontalLabels(new String[] {"", "Time", ""});
 		graphView.getGraphViewStyle().setTextSize(25);
 		graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
 		graphView.getGraphViewStyle().setVerticalLabelsColor(Color.rgb(50, 50, 50));
-		graphView.getGraphViewStyle().setVerticalLabelsWidth(80);
-		graphView.getGraphViewStyle().setNumVerticalLabels(num_Label);		// the number of Y-axis Label
-		graphView.getGraphViewStyle().setGridStyle(GridStyle.BOTH);
+		// the number of Y-axis Label
+		graphView.getGraphViewStyle().setNumVerticalLabels(num_Label);	
 		
 		return graphView;
 	}
