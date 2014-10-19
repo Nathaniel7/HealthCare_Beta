@@ -44,7 +44,10 @@ public class TabViewActivity extends TabActivity {
 		intent = new Intent().setClass(this, GraphViewActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("Graph").setContent(intent));
 
-		tabHost.setCurrentTab(1);
+		intent = new Intent().setClass(this, InfoViewActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("Information").setContent(intent));
+
+		tabHost.setCurrentTab(2);
 	}
 
 	@Override

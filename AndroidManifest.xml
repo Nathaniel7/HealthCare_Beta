@@ -8,7 +8,7 @@
         android:minSdkVersion="16"
         android:targetSdkVersion="19" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -19,16 +19,17 @@
         <activity
             android:name="TabViewActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="SensorViewActivity"></activity>
-        <activity android:name="GraphViewActivity"></activity>
+        <activity android:name="SensorViewActivity" ></activity>
+        <activity android:name="GraphViewActivity" ></activity>
+        <activity android:name="InfoViewActivity" ></activity>
     </application>
 
 </manifest>

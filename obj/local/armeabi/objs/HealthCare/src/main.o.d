@@ -1,5 +1,6 @@
-obj/local/armeabi/objs/HealthCare/src/main.o: jni/src/main.c \
- jni/inc/main.h \
+/work/workspace/HealthCare_Beta/obj/local/armeabi/objs/HealthCare/src/main.o: \
+ /work/workspace/HealthCare_Beta/jni/src/main.c \
+ /work/workspace/HealthCare_Beta/jni/inc/main.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -71,13 +72,15 @@ obj/local/armeabi/objs/HealthCare/src/main.o: jni/src/main.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/pthread.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/time.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sched.h \
- jni/inc/uart_api.h jni/inc/linked_list.h jni/inc/defines.h \
- jni/inc/Logcat.h \
+ /work/workspace/HealthCare_Beta/jni/inc/uart_api.h \
+ /work/workspace/HealthCare_Beta/jni/inc/linked_list.h \
+ /work/workspace/HealthCare_Beta/jni/inc/defines.h \
+ /work/workspace/HealthCare_Beta/jni/inc/Logcat.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h \
- jni/inc/com_Nathaniel_healthcare_beta_AbstractionLib.h \
+ /work/workspace/HealthCare_Beta/jni/inc/com_Nathaniel_healthcare_beta_AbstractionLib.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/jni.h
 
-jni/inc/main.h:
+/work/workspace/HealthCare_Beta/jni/inc/main.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h:
 
@@ -221,16 +224,16 @@ jni/inc/main.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sched.h:
 
-jni/inc/uart_api.h:
+/work/workspace/HealthCare_Beta/jni/inc/uart_api.h:
 
-jni/inc/linked_list.h:
+/work/workspace/HealthCare_Beta/jni/inc/linked_list.h:
 
-jni/inc/defines.h:
+/work/workspace/HealthCare_Beta/jni/inc/defines.h:
 
-jni/inc/Logcat.h:
+/work/workspace/HealthCare_Beta/jni/inc/Logcat.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:
 
-jni/inc/com_Nathaniel_healthcare_beta_AbstractionLib.h:
+/work/workspace/HealthCare_Beta/jni/inc/com_Nathaniel_healthcare_beta_AbstractionLib.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/jni.h:

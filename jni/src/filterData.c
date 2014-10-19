@@ -151,6 +151,8 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                     p->D_data.f_Data[i] = p->analyzedData[i];
 //                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->analyzedData[front]);
                 }
+                else
+                    setFilterQdata(p, p->D_data.f_Data[0], CURRDATA);
             }
         }//end else if
         else
@@ -217,6 +219,8 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                     p->D_data.f_Data[0] = p->analyzedData[c_front];
 //                    __android_log_print(ANDROID_LOG_INFO, "Displacement", "\t%d <= %d <= %d", displacement[0], p->analyzedData[front-1], displacement[1]);
                 }
+                else
+                    setFilterQdata(p, p->D_data.f_Data[0], CURRDATA);
             }
         }
     }

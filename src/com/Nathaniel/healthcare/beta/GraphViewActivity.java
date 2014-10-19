@@ -1,6 +1,5 @@
 package com.Nathaniel.healthcare.beta;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
 import com.jjoe64.graphview.GraphViewStyle.GridStyle;
 import com.jjoe64.graphview.LineGraphView;
 
-@SuppressLint("NewApi")
+
 public class GraphViewActivity extends Activity {
 	////////장치의 상태를 나타낸다 ////////////////
 	final int STATE_WORST = 0;
@@ -124,7 +123,6 @@ public class GraphViewActivity extends Activity {
 		layout.addView(layout_graph1);
 		layout.addView(layout_graph2);
 		
-
 		new Thread(new Runnable() {
 			@Override
 			public void run() {//				

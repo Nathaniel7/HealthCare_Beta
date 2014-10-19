@@ -136,7 +136,7 @@ JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpress
                     else
                     {
                         p->summarizedData[i] = -1;
-                        printf("\n[Error Filtering] : O\n");
+//                        printf("\n[Error Filtering] : O\n");
                     }
                 }
             }
@@ -194,7 +194,7 @@ JNIEXPORT jintArray JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_ge
 
 void* thread_F_readData(void* data) {
     listNode* p = (listNode*)data;
-    printf("****StartReadData(F_readData2()) << dev : %s >> \n",p->dev_name);
+//    printf("****StartReadData(F_readData2()) << dev : %s >> \n",p->dev_name);
     while (1)
     {
         while (p->dev_monitor_status)
