@@ -42,32 +42,40 @@ public class SensorViewActivity extends Activity {
 
 		LinearLayout layout_sensorlist = (LinearLayout)findViewById(R.id.sensorlist_area);
 		layout_sensorlist.removeAllViews();
-
+		layout_sensorlist.setWeightSum(1.0f);
+		
 		LinearLayout layout_sensorcontent_title = new LinearLayout(this);
 		layout_sensorcontent_title.setOrientation(LinearLayout.HORIZONTAL);
 		layout_sensorcontent_title.setBackgroundColor(Color.parseColor("#FF6A6A"));
 
+		LinearLayout.LayoutParams image_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f);
+		LinearLayout.LayoutParams brand_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.14f);
+		LinearLayout.LayoutParams type_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.16f);
+		LinearLayout.LayoutParams feature_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.55f);
+		
 		for(int i = 0; i < 5; i++) {
 			TextView tv_content = new TextView(this);
 			tv_content = new TextView(this);
-
+			
 			if(i == 0) {
-				tv_content.setText("   Photo");
-				tv_content.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.35f));
+				tv_content.setText("Photo");
+				tv_content.setLayoutParams(image_Lparam);
 			}
 			else if(i == 1) {
 				tv_content.setText("Brand");
-				tv_content.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f));
+				tv_content.setLayoutParams(brand_Lparam);
 			}
 			else if(i == 2) {
 				tv_content.setText("Type");
-				tv_content.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.20f));
+				tv_content.setLayoutParams(type_Lparam);
 			}
 			else if(i == 3) {
 				tv_content.setText("Features");
-				tv_content.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.35f));
+				tv_content.setLayoutParams(feature_Lparam);
 			}
-			//					Log.i("### List Act ###", tv_content[i].getText().toString());
+
+			tv_content.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+			tv_content.setTextAppearance(this, android.R.style.TextAppearance_Medium);
 			layout_sensorcontent_title.addView(tv_content);
 		}
 		layout_sensorlist.addView(layout_sensorcontent_title);
@@ -78,7 +86,8 @@ public class SensorViewActivity extends Activity {
 			//			Log.i("### List Act ###", "Select data not exist!");
 			TextView tv = new TextView(this);
 			tv.setText("연결된 센서가 존재하지 않습니다.");
-			tv.setGravity(Gravity.CENTER);
+			tv.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+			tv.setTextAppearance(this, android.R.style.TextAppearance_Medium);
 			layout_sensorlist.addView(tv);
 			//Log.i("############", "..........");
 		}
@@ -96,7 +105,8 @@ public class SensorViewActivity extends Activity {
 			LinearLayout layout_sensorcontent = new LinearLayout(this);
 			layout_sensorcontent.setOrientation(LinearLayout.HORIZONTAL);
 			layout_sensorcontent.setBackgroundColor(Color.parseColor("#BBDEF8"));
-
+			layout_sensorcontent.setWeightSum(1.0f);
+			
 			ImageView iv_content = new ImageView(this);
 			TextView[] tv_content = new TextView[3];
 
@@ -124,7 +134,8 @@ public class SensorViewActivity extends Activity {
 						iv_content.setBackgroundResource(R.drawable.weather);
 						break;
 					}
-					iv_content.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.1f));
+
+					iv_content.setLayoutParams(image_Lparam);
 					layout_sensorcontent.addView(iv_content);
 				}
 				else if(j == 1) {	// Brand
@@ -132,16 +143,19 @@ public class SensorViewActivity extends Activity {
 					case COMPANY_HANBACK:
 //						Log.i("#######", "HANBACK ELECTRONIC");
 						tv_content[j-1] = new TextView(this);
-						tv_content[j-1].setText("   HANBACK");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f));
+						tv_content[j-1].setText("HANBACK");
+						tv_content[j-1].setLayoutParams(brand_Lparam);
 						break;
 					default:
 //						Log.i("#######", "Unknown Company");
 						tv_content[j-1] = new TextView(this);
-						tv_content[j-1].setText("   Unknown");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f));
+						tv_content[j-1].setText("Unknown");
+						tv_content[j-1].setLayoutParams(brand_Lparam);
 						break;
 					}
+					tv_content[j-1].setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+					tv_content[j-1].setTextAppearance(this, android.R.style.TextAppearance_Medium);
+					
 					layout_sensorcontent.addView(tv_content[j-1]);
 				}
 				else if(j == 2) {	// Type
@@ -150,33 +164,35 @@ public class SensorViewActivity extends Activity {
 //						Log.i("#######", "DIOXIDE");
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("Dioxide");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.20f));
+						tv_content[j-1].setLayoutParams(type_Lparam);
 						break;
 					case HANBACK_DUST_FRONT:
 //						Log.i("#######", "DUST");
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("Dust");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.20f));
+						tv_content[j-1].setLayoutParams(type_Lparam);
 						break;
 					case HANBACK_VOC_FRONT:
 //						Log.i("#######", "VOC");
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("VOC");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.20f));
+						tv_content[j-1].setLayoutParams(type_Lparam);
 						break;
 					case HANBACK_THRMMTR_FRONT:
 //						Log.i("#######", "THERMOMETER");
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("Thermometer");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.20f));
+						tv_content[j-1].setLayoutParams(type_Lparam);
 						break;
 					case HANBACK_WEATHER_FRONT:
 //						Log.i("#######", "WEATHER");
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("Weather");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.20f));
+						tv_content[j-1].setLayoutParams(type_Lparam);
 						break;
 					}
+					tv_content[j-1].setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+					tv_content[j-1].setTextAppearance(this, android.R.style.TextAppearance_Medium);
 					layout_sensorcontent.addView(tv_content[j-1]);
 				}
 				else if(j == 3) {	// Features
@@ -185,33 +201,28 @@ public class SensorViewActivity extends Activity {
 //						Log.i("#######", "DIOXIDE");
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("실내 공기 중의 이산화탄소 농도를 측정하며, 상황에 따른 안내가 가능합니다.");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.35f));
+						tv_content[j-1].setLayoutParams(feature_Lparam);
 						break;
 					case HANBACK_DUST_FRONT:
 //						Log.i("#######", "DUST");
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("실내 공기 중의 먼지 농도를 측정하며, 공기의 탁한 정도를 알 수 있습니다.");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.35f));
+						tv_content[j-1].setLayoutParams(feature_Lparam);
 						break;
 					case HANBACK_VOC_FRONT:
 //						Log.i("#######", "VOC");
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("공기 중 휘발성 농도를 측정하며, LPG 등 가스의 및 가연성 기체를 감지합니다.");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.35f));
+						tv_content[j-1].setLayoutParams(feature_Lparam);
 						break;
 					case HANBACK_THRMMTR_FRONT:
 //						Log.i("#######", "THERMOMETER");
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("적외선 센서로 인체 온도와 실내 온도를 동시에 체크가 가능합니다.");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.35f));
-						break;
-					case HANBACK_WEATHER_FRONT:
-//						Log.i("#######", "WEATHER");
-						tv_content[j-1] = new TextView(this);
-						tv_content[j-1].setText("기압, 조도, 습도, 온도, 가속도를 측정 할 수 있습니다.");
-						tv_content[j-1].setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.35f));
+						tv_content[j-1].setLayoutParams(feature_Lparam);
 						break;
 					}
+					tv_content[j-1].setTextAppearance(this, android.R.style.TextAppearance_Medium);
 					layout_sensorcontent.addView(tv_content[j-1]);
 				}	
 			}
