@@ -1,5 +1,5 @@
-obj/local/armeabi/objs/HealthCare/src/filterData.o: jni/src/filterData.c \
- jni/inc/filterData.h \
+obj/local/armeabi/objs/HealthCare/abstraction_layer/src/main.o: \
+ jni/abstraction_layer/src/main.c jni/abstraction_layer/inc/main.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -17,6 +17,12 @@ obj/local/armeabi/objs/HealthCare/src/filterData.o: jni/src/filterData.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/types.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/machine/kernel.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/sysmacros.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdlib.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/string.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/malloc.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/alloca.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/strings.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/memory.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/unistd.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/select.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/time.h \
@@ -29,8 +35,6 @@ obj/local/armeabi/objs/HealthCare/src/filterData.o: jni/src/filterData.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/machine/limits.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/syslimits.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/page.h \
- /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/string.h \
- /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/malloc.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/signal.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/signal.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/sigcontext.h \
@@ -49,12 +53,32 @@ obj/local/armeabi/objs/HealthCare/src/filterData.o: jni/src/filterData.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/ioctl_compat.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/termios.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/termios.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/stat.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/stat.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/endian.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/endian.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/machine/endian.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/fcntl.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/fcntl.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/fcntl.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/fcntl.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/errno.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/errno.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/errno.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/errno.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/errno-base.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/math.h \
- jni/inc/linked_list.h jni/inc/defines.h jni/inc/hanback_device.h \
- jni/inc/Logcat.h \
- /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/pthread.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/time.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sched.h \
+ jni/abstraction_layer/inc/uart_api.h \
+ jni/abstraction_layer/inc/linked_list.h \
+ jni/abstraction_layer/inc/defines.h jni/abstraction_layer/inc/Logcat.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h \
+ jni/abstraction_layer/inc/com_Nathaniel_healthcare_beta_AbstractionLib.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/jni.h
 
-jni/inc/filterData.h:
+jni/abstraction_layer/inc/main.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h:
 
@@ -90,6 +114,18 @@ jni/inc/filterData.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/sysmacros.h:
 
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdlib.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/string.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/malloc.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/alloca.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/strings.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/memory.h:
+
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/unistd.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/select.h:
@@ -113,10 +149,6 @@ jni/inc/filterData.h:
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/syslimits.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/page.h:
-
-/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/string.h:
-
-/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/malloc.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/signal.h:
 
@@ -154,14 +186,52 @@ jni/inc/filterData.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/termios.h:
 
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/stat.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/stat.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/endian.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/endian.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/machine/endian.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/fcntl.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/fcntl.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/fcntl.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/fcntl.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/errno.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/errno.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/errno.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/errno.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm-generic/errno-base.h:
+
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/math.h:
 
-jni/inc/linked_list.h:
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/pthread.h:
 
-jni/inc/defines.h:
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/time.h:
 
-jni/inc/hanback_device.h:
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sched.h:
 
-jni/inc/Logcat.h:
+jni/abstraction_layer/inc/uart_api.h:
+
+jni/abstraction_layer/inc/linked_list.h:
+
+jni/abstraction_layer/inc/defines.h:
+
+jni/abstraction_layer/inc/Logcat.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:
+
+jni/abstraction_layer/inc/com_Nathaniel_healthcare_beta_AbstractionLib.h:
+
+/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/jni.h:

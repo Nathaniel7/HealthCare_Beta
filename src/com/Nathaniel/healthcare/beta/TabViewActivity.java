@@ -30,7 +30,6 @@ public class TabViewActivity extends TabActivity {
 //			e.printStackTrace();
 //		}
 		
-		//		TTD.start();
 		TM.start();
 		TF.start();
 		TS.start();

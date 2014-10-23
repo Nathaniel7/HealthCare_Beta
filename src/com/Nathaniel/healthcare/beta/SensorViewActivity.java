@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class SensorViewActivity extends Activity {
 	interface HANBACK {
 		int COMPANY			= 0x76;
-		
+
 		int DIOXIDE_FRONT 	= 0x13;
 		int DUST_FRONT 		= 0x15;
 		int VOC_FRONT 		= 0x17;
@@ -23,21 +23,18 @@ public class SensorViewActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sensor_view);
 
 		new Thread(new Runnable() {
 			@Override
-			public void run() {//				
+			public void run() {				
 				while(true) {
-					// 현재 UI 스레드가 아님으로 메시지 큐에 Runnable을 등록 함
 					runOnUiThread(new Runnable() {
 						public void run() {
 							onResume();
 						}
-					});
-					// 복잡한 작업 simulating	
+					});	
 					SystemClock.sleep(250);
 				}
 
@@ -52,7 +49,7 @@ public class SensorViewActivity extends Activity {
 		LinearLayout layout_sensorlist = (LinearLayout)findViewById(R.id.sensorlist_area);
 		layout_sensorlist.removeAllViews();
 		layout_sensorlist.setWeightSum(1.0f);
-		
+
 		LinearLayout layout_sensorcontent_title = new LinearLayout(this);
 		layout_sensorcontent_title.setOrientation(LinearLayout.HORIZONTAL);
 		layout_sensorcontent_title.setBackgroundColor(Color.parseColor("#FF6A6A"));
@@ -62,11 +59,11 @@ public class SensorViewActivity extends Activity {
 		LinearLayout.LayoutParams brand_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.14f);
 		LinearLayout.LayoutParams type_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.16f);
 		LinearLayout.LayoutParams feature_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.55f);
-		
+
 		for(int i = 0; i < 5; i++) {
 			TextView tv_content = new TextView(this);
 			tv_content = new TextView(this);
-			
+
 			if(i == 0) {
 				tv_content.setText("Photo");
 				tv_content.setLayoutParams(photo_Lparam);
@@ -91,18 +88,15 @@ public class SensorViewActivity extends Activity {
 		layout_sensorlist.addView(layout_sensorcontent_title);
 
 		int[] sensors = AbstractionLib.getData();
-		
+
 		if(sensors[0] == 0) {
-			//			Log.i("### List Act ###", "Select data not exist!");
 			TextView tv = new TextView(this);
 			tv.setText("연결된 센서가 존재하지 않습니다.");
 			tv.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 			tv.setTextAppearance(this, android.R.style.TextAppearance_Medium);
 			layout_sensorlist.addView(tv);
-			//Log.i("############", "..........");
 		}
 
-		
 		for(int i = 0; sensors[i] != 0; i += 100) {
 			LinearLayout layout_sensorcontent = new LinearLayout(this);
 			layout_sensorcontent.setOrientation(LinearLayout.HORIZONTAL);
@@ -111,7 +105,7 @@ public class SensorViewActivity extends Activity {
 			else if(i == 200)	layout_sensorcontent.setBackgroundColor(Color.parseColor("#FFFDDD"));
 			else if(i == 300)	layout_sensorcontent.setBackgroundColor(Color.parseColor("#F8D5CD"));
 			layout_sensorcontent.setWeightSum(1.0f);
-			
+
 			ImageView iv_content = new ImageView(this);
 			TextView[] tv_content = new TextView[3];
 
@@ -146,7 +140,7 @@ public class SensorViewActivity extends Activity {
 						tv_content[j-1].setText("Unknown");
 						break;
 					}
-					
+
 					tv_content[j-1].setLayoutParams(brand_Lparam);
 					tv_content[j-1].setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 					tv_content[j-1].setTextAppearance(this, android.R.style.TextAppearance_Medium);
@@ -171,7 +165,7 @@ public class SensorViewActivity extends Activity {
 						tv_content[j-1].setText("Thermometer");
 						break;
 					}
-					
+
 					tv_content[j-1].setLayoutParams(type_Lparam);
 					tv_content[j-1].setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 					tv_content[j-1].setTextAppearance(this, android.R.style.TextAppearance_Medium);
@@ -196,7 +190,7 @@ public class SensorViewActivity extends Activity {
 						tv_content[j-1].setText("적외선 센서로 인체 온도와 실내 온도를 동시에 체크가 가능합니다.");
 						break;
 					}
-					
+
 					tv_content[j-1].setLayoutParams(feature_Lparam);
 					tv_content[j-1].setTextAppearance(this, android.R.style.TextAppearance_Medium);
 					layout_sensorcontent.addView(tv_content[j-1]);
@@ -208,14 +202,10 @@ public class SensorViewActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		switch (keyCode) {
-		case KeyEvent.KEYCODE_BACK:
-			// 첫번째 방법		
+		case KeyEvent.KEYCODE_BACK:		
 			finish();
-			// 두번째 방법
 			System.exit(0);
-			// 세번째 방법
 			android.os.Process.killProcess(android.os.Process.myPid());
 
 			break;

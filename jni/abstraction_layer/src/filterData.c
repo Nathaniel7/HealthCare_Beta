@@ -128,7 +128,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
 				data[i] < 61)
                 return ;
 
-//            __android_log_print(ANDROID_LOG_INFO, "GraphData", "\t%d\t%d\t%d", p->D_data.a_Data[0], p->D_data.f_Data[0], p->D_data.s_Data[0]);
+            __android_log_print(ANDROID_LOG_INFO, "GraphData", "\t%d\t%d\t%d", p->D_data.a_Data[0], p->D_data.f_Data[0], p->D_data.s_Data[0]);
         }
 
         if( p->dev_id[0] == HANBACK_THRMMTR_FRONT &&
@@ -145,14 +145,14 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                 ////  2-2. Remove Outlier
                 // p->analyzedData[front] == Body Temperature
                 // Fixed value: because body temperature is never high 40...
-                if( p->analyzedData[i] < 4200 &&
-                        p->analyzedData[i] > 0)
+                if( p->analyzedData[i] < 4000 &&
+                        p->analyzedData[i] > 3000)
                 {
                     setFilterQdata(p, p->analyzedData[i], CURRDATA);
                     p->D_data.f_Data[i] = p->analyzedData[i];
 //                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%d", p->analyzedData[front]);
                 }
-                else
+                else if(p->analyzedData[i] != 0)
                     setFilterQdata(p, p->D_data.f_Data[0], CURRDATA);
             }
         }//end else if
@@ -220,7 +220,7 @@ void F_filterData(listNode *p, unsigned char *readBuff, int count)
                     p->D_data.f_Data[0] = p->analyzedData[c_front];
 //                    __android_log_print(ANDROID_LOG_INFO, "GraphData", "Not Filtered // %d <= %d <= %d", displacement[0], p->analyzedData[c_front], displacement[1]);
                 }
-                else
+                else if(p->analyzedData[i] != 0)
                 {
                     setFilterQdata(p, p->D_data.f_Data[0], CURRDATA);
 //                    __android_log_print(ANDROID_LOG_INFO, "GraphData", "Filtered // %d <= %d <= %d", displacement[0], p->analyzedData[c_front], displacement[1]);

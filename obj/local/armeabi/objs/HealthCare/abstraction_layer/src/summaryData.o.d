@@ -1,5 +1,6 @@
-obj/local/armeabi/objs/HealthCare/src/filterData.o: jni/src/filterData.c \
- jni/inc/filterData.h \
+obj/local/armeabi/objs/HealthCare/abstraction_layer/src/summaryData.o: \
+ jni/abstraction_layer/src/summaryData.c \
+ jni/abstraction_layer/inc/summaryData.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -50,11 +51,13 @@ obj/local/armeabi/objs/HealthCare/src/filterData.o: jni/src/filterData.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/termios.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/termios.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/math.h \
- jni/inc/linked_list.h jni/inc/defines.h jni/inc/hanback_device.h \
- jni/inc/Logcat.h \
+ jni/abstraction_layer/inc/linked_list.h \
+ jni/abstraction_layer/inc/defines.h \
+ jni/abstraction_layer/inc/hanback_device.h \
+ jni/abstraction_layer/inc/Logcat.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h
 
-jni/inc/filterData.h:
+jni/abstraction_layer/inc/summaryData.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h:
 
@@ -156,12 +159,12 @@ jni/inc/filterData.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/math.h:
 
-jni/inc/linked_list.h:
+jni/abstraction_layer/inc/linked_list.h:
 
-jni/inc/defines.h:
+jni/abstraction_layer/inc/defines.h:
 
-jni/inc/hanback_device.h:
+jni/abstraction_layer/inc/hanback_device.h:
 
-jni/inc/Logcat.h:
+jni/abstraction_layer/inc/Logcat.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:

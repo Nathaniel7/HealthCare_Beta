@@ -35,14 +35,14 @@ public class InfoViewActivity extends Activity {
 
 		new Thread(new Runnable() {
 			@Override
-			public void run() {//				
+			public void run() {
 				while(true) {
 					runOnUiThread(new Runnable() {
 						public void run() {
 							onResume();
 						}
 					});
-					
+
 					SystemClock.sleep(250);
 				}
 
@@ -53,7 +53,7 @@ public class InfoViewActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		LinearLayout layout_infolist = (LinearLayout)findViewById(R.id.infolist_area);
 		layout_infolist.removeAllViews();
 		layout_infolist.setWeightSum(1.0f);
@@ -109,17 +109,17 @@ public class InfoViewActivity extends Activity {
 		for(int i = 0; sensors[i] != 0; i += 100) {
 			LinearLayout layout_sensorcontent = new LinearLayout(this);
 			layout_sensorcontent.setOrientation(LinearLayout.HORIZONTAL);
-			
+
 			if(i == 0)			layout_sensorcontent.setBackgroundColor(Color.parseColor("#CFE4F8"));
 			else if(i == 100)	layout_sensorcontent.setBackgroundColor(Color.parseColor("#D1FADD"));
 			else if(i == 200)	layout_sensorcontent.setBackgroundColor(Color.parseColor("#FFFDDD"));
 			else if(i == 300)	layout_sensorcontent.setBackgroundColor(Color.parseColor("#F8D5CD"));
-			
+
 			layout_sensorcontent.setWeightSum(1.0f);
-			
+
 			ImageView iv_content = new ImageView(this);
 			TextView[] tv_content = new TextView[3];
-			
+
 			for(int j = 0; j < 3; j++) {
 				if(j == 0) {	// Type
 					switch(sensors[i+1]) {
@@ -140,7 +140,7 @@ public class InfoViewActivity extends Activity {
 						tv_content[j].setText("Thermometer");
 						break;
 					}
-					
+
 					tv_content[j].setLayoutParams(type_Lparam);
 					tv_content[j].setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 					tv_content[j].setTextAppearance(this, android.R.style.TextAppearance_Medium);
@@ -291,7 +291,7 @@ public class InfoViewActivity extends Activity {
 			layout_sensorcontent.addView(iv_content);
 			for(int k = 0; k < 3; k++)
 				layout_sensorcontent.addView(tv_content[k]);
-			
+
 			layout_infolist.addView(layout_sensorcontent);
 		}
 	}
