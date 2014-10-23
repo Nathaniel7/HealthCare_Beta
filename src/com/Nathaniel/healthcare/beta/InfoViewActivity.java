@@ -26,8 +26,6 @@ public class InfoViewActivity extends Activity {
 		int NORMAL			= 0x02;
 		int BAD				= 0x04;
 		int WORST			= 0x08;
-
-		//		int STATE_FILTER		= 0x1F;
 	};
 
 	@Override
@@ -39,13 +37,12 @@ public class InfoViewActivity extends Activity {
 			@Override
 			public void run() {//				
 				while(true) {
-					// 현재 UI 스레드가 아님으로 메시지 큐에 Runnable을 등록 함
 					runOnUiThread(new Runnable() {
 						public void run() {
 							onResume();
 						}
 					});
-					// 복잡한 작업 simulating	
+					
 					SystemClock.sleep(250);
 				}
 
@@ -101,7 +98,6 @@ public class InfoViewActivity extends Activity {
 		int[] sensors = AbstractionLib.getData();
 
 		if(sensors[0] == 0) {
-			//			Log.i("### List Act ###", "Select data not exist!");
 			TextView tv = new TextView(this);
 			tv.setText("연결된 센서가 존재하지 않습니다.");
 			tv.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
