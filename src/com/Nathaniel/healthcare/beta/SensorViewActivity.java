@@ -57,7 +57,8 @@ public class SensorViewActivity extends Activity {
 		layout_sensorcontent_title.setOrientation(LinearLayout.HORIZONTAL);
 		layout_sensorcontent_title.setBackgroundColor(Color.parseColor("#FF6A6A"));
 
-		LinearLayout.LayoutParams image_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f);
+		LinearLayout.LayoutParams image_Lparam = new LinearLayout.LayoutParams(0, 193, 0.15f);
+		LinearLayout.LayoutParams photo_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f);
 		LinearLayout.LayoutParams brand_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.14f);
 		LinearLayout.LayoutParams type_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.16f);
 		LinearLayout.LayoutParams feature_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.55f);
@@ -68,7 +69,7 @@ public class SensorViewActivity extends Activity {
 			
 			if(i == 0) {
 				tv_content.setText("Photo");
-				tv_content.setLayoutParams(image_Lparam);
+				tv_content.setLayoutParams(photo_Lparam);
 			}
 			else if(i == 1) {
 				tv_content.setText("Brand");

@@ -66,6 +66,7 @@ public class InfoViewActivity extends Activity {
 		layout_infocontent_title.setBackgroundColor(Color.parseColor("#FF6A6A"));
 
 		LinearLayout.LayoutParams image_Lparam = new LinearLayout.LayoutParams(0, 193, 0.15f);
+		LinearLayout.LayoutParams photo_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f);
 		LinearLayout.LayoutParams type_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.15f);
 		LinearLayout.LayoutParams measurement_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.17f);
 		LinearLayout.LayoutParams feature_Lparam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.53f);
@@ -76,7 +77,7 @@ public class InfoViewActivity extends Activity {
 
 			if(i == 0) {
 				tv_content.setText("Photo");
-				tv_content.setLayoutParams(type_Lparam);
+				tv_content.setLayoutParams(photo_Lparam);
 			}
 			else if(i == 1) {
 				tv_content.setText("Type");

@@ -1,5 +1,6 @@
-obj/local/armeabi/objs/HealthCare/src/summaryData.o: \
- jni/src/summaryData.c jni/inc/summaryData.h \
+/work/workspace/HealthCare_Beta/obj/local/armeabi/objs/HealthCare/src/summaryData.o: \
+ /work/workspace/HealthCare_Beta/jni/src/summaryData.c \
+ /work/workspace/HealthCare_Beta/jni/inc/summaryData.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -50,11 +51,13 @@ obj/local/armeabi/objs/HealthCare/src/summaryData.o: \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/termios.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/termios.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/math.h \
- jni/inc/linked_list.h jni/inc/defines.h jni/inc/hanback_device.h \
- jni/inc/Logcat.h \
+ /work/workspace/HealthCare_Beta/jni/inc/linked_list.h \
+ /work/workspace/HealthCare_Beta/jni/inc/defines.h \
+ /work/workspace/HealthCare_Beta/jni/inc/hanback_device.h \
+ /work/workspace/HealthCare_Beta/jni/inc/Logcat.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h
 
-jni/inc/summaryData.h:
+/work/workspace/HealthCare_Beta/jni/inc/summaryData.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h:
 
@@ -156,12 +159,12 @@ jni/inc/summaryData.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/math.h:
 
-jni/inc/linked_list.h:
+/work/workspace/HealthCare_Beta/jni/inc/linked_list.h:
 
-jni/inc/defines.h:
+/work/workspace/HealthCare_Beta/jni/inc/defines.h:
 
-jni/inc/hanback_device.h:
+/work/workspace/HealthCare_Beta/jni/inc/hanback_device.h:
 
-jni/inc/Logcat.h:
+/work/workspace/HealthCare_Beta/jni/inc/Logcat.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:
