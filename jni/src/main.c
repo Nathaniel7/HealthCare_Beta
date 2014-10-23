@@ -130,14 +130,13 @@ JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TSpress
                     if(data[i] = S_SummaryHanbackSensor(p, i))
                     {
                         p->summarizedData[i] = data[i]; //current analyzed data를 저장함
-                        p->dev_abs.res_analyzeData[i] = p->summarizedData[i];
+                        p->dev_abs.res_summarizedData[i] = p->summarizedData[i];
                         p->D_data.s_Data[i] = data[i];
                     }
                     else
-                    {
                         p->summarizedData[i] = -1;
-//                        printf("\n[Error Filtering] : O\n");
-                    }
+
+                	S_SummarySensorStatus(p, data[i]);
                 }
             }
             p = p->next;
@@ -171,19 +170,8 @@ JNIEXPORT jintArray JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_ge
         fill[i+2] = p->dev_abs.res_sensor_datalen;
         fill[i+3] = p->dev_abs.res_state;
 
-        for(j = 0; j < p->dev_datalen/2; j++) {
-            fill[i+4+j] = p->dev_abs.res_analyzeData[j]; //getQueuedata(p,PREVDATA);
-//            __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "fill data: %d", fill[i+4+j]);
-        }
-//        if(fill[i+1] == HANBACK_DIOXIDE_FRONT)
-//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "DIO / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
-//        if(fill[i+1] == HANBACK_DUST_FRONT)
-//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "DUS / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
-//        if(fill[i+1] == HANBACK_THRMMTR_FRONT)
-//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "THR / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
-//        if(fill[i+1] == HANBACK_VOC_FRONT)
-//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "VOC / %02d, %02d, %02d, %02d ", fill[i+4], fill[i+5], fill[i+6], fill[i+7]);
-
+        for(j = 0; j < p->dev_datalen/2; j++)
+            fill[i+4+j] = p->dev_abs.res_summarizedData[j]; //getQueuedata(p,PREVDATA);
 
         p = p ->next;
     }
@@ -198,16 +186,7 @@ void* thread_F_readData(void* data) {
     while (1)
     {
         while (p->dev_monitor_status)
-        {
-            F_readData(p); //모든 LinkedList Node의 데이터를 다 받는다.
-            //          if (0 == strcmp(p->dev_name, "Thermometer"))//D_getQueuedata함수가 있습니다.D_getQueuedata사용시 데이터가사리지므로 주의해야함.
-            //              D_HBACK_Thermometer(p);
-            //          else if (0 == strcmp(p->dev_name, "Weather"))
-            //              D_HBACK_Weather(p);
-            //          else if (0 == strcmp(p->dev_name, "Dioxide"))
-            //              D_HBACK_Dioxide(p);
-            ////////////////////////////////////
-        } //end while
+            F_readData(p);
     }
 }
 
@@ -227,16 +206,6 @@ void getElapsedTime(struct timeval Tstart, struct timeval Tend) {
     Tend.tv_usec += (Tend.tv_sec*1000000);
 
     printf("Elapsed Time: %lf sec\n", Tend.tv_usec / 1000000.0);
-}
-
-void printHex(const char *buff, int readSize)
-{
-    int i;
-    for(i = 0; i < readSize; i++) {
-        printf("%02X ", buff[i]);
-    }
-
-    //    printf("\n");
 }
 
 void printCutLine()

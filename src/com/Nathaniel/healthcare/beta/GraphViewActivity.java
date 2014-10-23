@@ -143,11 +143,11 @@ public class GraphViewActivity extends Activity {
 									cnt_du++;
 									break;
 								case HANBACK_VOC_FRONT:
-									series_vo.appendData(new GraphViewData(cnt_vo+1, sensors[i+4]/10), true, 1000);
+									series_vo.appendData(new GraphViewData(cnt_vo+1, sensors[i+4]/(float)10), true, 1000);
 									cnt_vo++;
 									break;
 								case HANBACK_THRMMTR_FRONT:
-									series_th.appendData(new GraphViewData(cnt_th+1, sensors[i+4]/100), true, 1000);
+									series_th.appendData(new GraphViewData(cnt_th+1, sensors[i+4]/(float)100), true, 1000);
 									cnt_th++;
 									break;
 								}

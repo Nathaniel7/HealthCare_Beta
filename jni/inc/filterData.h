@@ -3,7 +3,6 @@
 #include <termios.h>
 #include <string.h>
 #include <math.h>
-//#include <tgmath.h>
 
 #include "linked_list.h"
 #include "hanback_device.h"
@@ -22,5 +21,3 @@ void F_filterData(listNode *, unsigned char *, int);
 void F_printUserData(listNode* , int data_opt);//데이터 분석을 마친 Queueing 한 데이터를 출력
 void F_printQueueData(listNode* , int data_opt);
 void F_printRawData(listNode* , int data_opt);
-
-int S_SummaryHanbackSensor(listNode* p, int index);//data return

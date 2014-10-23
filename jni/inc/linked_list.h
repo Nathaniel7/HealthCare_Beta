@@ -3,9 +3,13 @@
 ////////장치의 상태를 나타낸다 ////////////////
 enum sensor_status
 {
-    STATE_WORST,
-    STATE_GOOD,
-    STATE_WAIT
+	STATE_NOT_EQUIPMENT = 0x00,
+    STATE_GOOD			= 0x01,
+	STATE_NORMAL		= 0x02,
+	STATE_BAD			= 0x04,
+    STATE_WORST			= 0x08
+
+//	STATE_FILTER		= 0x1F
 };
 
 //////센서가 출저회사를 나타낸다 ////////////////
@@ -25,7 +29,7 @@ typedef struct Abstract
     int res_company;
     int res_sensor_datalen;
     int res_state;
-    int res_analyzeData[10];
+    int res_summarizedData[4];
 } AbstNode;
 
 typedef struct D_Data
