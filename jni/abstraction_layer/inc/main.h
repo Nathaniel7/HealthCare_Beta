@@ -13,6 +13,7 @@
 #include <signal.h>
 #include <math.h>
 #include <pthread.h>
+#include <stddef.h>
 //#include <ncurses.h>
 
 //#include <omp.h>			// OpenMP
@@ -43,6 +44,14 @@ void* thread_S_pressData(void* data);
 void setDevHead(listNode_h*);
 listNode_h* getDevHead();
 listNode_h* Node;
+
+size_t		i;
+size_t		j;
+size_t		index;
+size_t		root_array_cnt;
+JSON_Value  *root_value;
+JSON_Array  *root_array;
+JSON_Object *root_object[1024];
 
 /*
 WARNING

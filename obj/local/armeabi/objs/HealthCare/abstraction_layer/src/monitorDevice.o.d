@@ -1,5 +1,6 @@
-obj/local/armeabi/objs/HealthCare/src/filterData.o: jni/src/filterData.c \
- jni/inc/filterData.h \
+/work/workspace/HealthCare_Beta/obj/local/armeabi/objs/HealthCare/abstraction_layer/src/monitorDevice.o: \
+ /work/workspace/HealthCare_Beta/jni/abstraction_layer/src/monitorDevice.c \
+ /work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/monitorDevice.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -49,12 +50,14 @@ obj/local/armeabi/objs/HealthCare/src/filterData.o: jni/src/filterData.c \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/ioctl_compat.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/linux/termios.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/termios.h \
- /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/math.h \
- jni/inc/linked_list.h jni/inc/defines.h jni/inc/hanback_device.h \
- jni/inc/Logcat.h \
- /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h
+ /work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/linked_list.h \
+ /work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/defines.h \
+ /work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/hanback_device.h \
+ /work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/Logcat.h \
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h \
+ /work/workspace/HealthCare_Beta/jni/json_parser/inc/parson.h
 
-jni/inc/filterData.h:
+/work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/monitorDevice.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h:
 
@@ -154,14 +157,14 @@ jni/inc/filterData.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/termios.h:
 
-/work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/math.h:
+/work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/linked_list.h:
 
-jni/inc/linked_list.h:
+/work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/defines.h:
 
-jni/inc/defines.h:
+/work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/hanback_device.h:
 
-jni/inc/hanback_device.h:
-
-jni/inc/Logcat.h:
+/work/workspace/HealthCare_Beta/jni/abstraction_layer/inc/Logcat.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h:
+
+/work/workspace/HealthCare_Beta/jni/json_parser/inc/parson.h:

@@ -1,0 +1,24 @@
+[
+	{
+		"brand": [118, 0],
+		"sensors":
+		[
+			{"id": [23,2], "brand": "Hanback", "type": "VOC", "pac len": 9, "data len": 4},
+			{"id": [19,2], "brand": "Hanback", "type": "Dioxide", "pac len": 9, "data len": 4}
+		]
+	},
+	{
+		"brand": [121, 1],
+		"sensors":
+		[
+			{"id": [21,2], "brand": "Nathaniel", "type": "DUST", "pac len": 11, "data len": 4}
+		]
+	},
+	{
+		"brand": [130, 4],
+		"sensors":
+		[
+			{"id": [24,4], "brand": "June", "type": "THRMMT", "pac len": 11, "data len": 4}
+		]
+	}
+]

@@ -1,5 +1,6 @@
 #include "monitorDevice.h"
 #include "Logcat.h"
+#include "parson.h"
 
 void printLogcat2(const char *buff, int count,char* dev_name)
 {
@@ -126,9 +127,7 @@ int M_checkDeviceFingerprint(listNode *Node)
 	unsigned char buff[MAX_BUFF_SIZE] = {0};
 
 	int checkCompany = 0;
-
 	//    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor2");
-
 
 	// Read data until buff[MAX_BUFF_SIZE] full
 	for(readTotalSize = 0; readTotalSize < MAX_BUFF_SIZE; readTotalSize += readSize) {

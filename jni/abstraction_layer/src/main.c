@@ -1,4 +1,5 @@
 #include "main.h"
+#include "parson.h"
 
 #define HANBACK_DIOXIDE_FRONT   0x13
 #define HANBACK_DUST_FRONT      0x15
@@ -24,17 +25,14 @@ JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_Test(JN
 JNIEXPORT jint JNICALL Java_com_Nathaniel_healthcare_beta_AbstractionLib_TMconnectDevice(JNIEnv *env, jclass clazz)
 {
     Node = createListNode_H();//장치의 링크드리스트를 만들기위해 헤드를 만듦
+    root_value = json_parse_file_with_comments(filename);
+
 
     ////////////////
     newDevice_cnt = 0; //새로운 장치 연결 개수를 잼 thread_F_makeDevthread 의 curDevice_cnt와 비교했을때 숫자가 같으면 새로운 장치가 연결 된것임
     deviceIndex = 0; //현재 장치 개수를 셈
     ////////////////
-
-    //	extern TTD_Number;
-    //	TTD_Number = 10;
-
 //    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor Start");
-
     while (1) {
         //LOGI(" > Monitoring Start");
 //        __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor0");
