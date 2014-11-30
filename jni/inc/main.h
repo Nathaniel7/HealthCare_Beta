@@ -22,6 +22,7 @@
 #include "defines.h"
 #include "Logcat.h"
 #include "com_Nathaniel_healthcare_beta_AbstractionLib.h"
+#include "parson.h"
 
 int monitorDev_ok;//thread에서 M_deviceConnect와 F_filterData thread의 동기화를 위한 변수
 int newDevice_cnt;//새로운 장치 연결 개수를 잼
@@ -44,14 +45,6 @@ void* thread_S_pressData(void* data);
 void setDevHead(listNode_h*);
 listNode_h* getDevHead();
 listNode_h* Node;
-
-size_t		i;
-size_t		j;
-size_t		index;
-size_t		root_array_cnt;
-JSON_Value  *root_value;
-JSON_Array  *root_array;
-JSON_Object *root_object[1024];
 
 /*
 WARNING

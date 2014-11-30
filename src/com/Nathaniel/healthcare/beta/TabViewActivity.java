@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 
 import android.annotation.SuppressLint;
 import android.app.TabActivity;
@@ -12,7 +11,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
@@ -70,13 +68,12 @@ public class TabViewActivity extends TabActivity {
 			e.printStackTrace();
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		if(file.length() < tmp_file.length()) {
-			Log.i("####################", file.length() + " < " + tmp_file.length());
+//			Log.i("####################", file.length() + " < " + tmp_file.length());
 			tmp_file.renameTo(file);
 		}
 		else {
-			Log.i("####################", file.length() + " > " + tmp_file.length());
+//			Log.i("####################", file.length() + " > " + tmp_file.length());
 			tmp_file.delete();
 		}
 		// END - res/raw/sensors.json 파일을 sdcard/Healthcare로 복사

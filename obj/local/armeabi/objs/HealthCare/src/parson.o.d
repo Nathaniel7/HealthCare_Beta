@@ -1,4 +1,5 @@
-obj/local/armeabi/objs/JSON_Parser/parson.o: jni/parson.c jni/parson.h \
+obj/local/armeabi/objs/HealthCare/src/parson.o: jni/src/parson.c \
+ jni/inc/parson.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -32,7 +33,7 @@ obj/local/armeabi/objs/JSON_Parser/parson.o: jni/parson.c jni/parson.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/sys/syslimits.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/asm/page.h
 
-jni/parson.h:
+jni/inc/parson.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/stdio.h:
 

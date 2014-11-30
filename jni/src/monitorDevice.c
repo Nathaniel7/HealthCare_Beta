@@ -26,7 +26,6 @@ int M_connectDevice(listNode_h *N)
 			"/dev/ttyUSB0", "/dev/ttyUSB1",	"/dev/ttyUSB2", "/dev/ttyUSB3", "/dev/ttyUSB4",
 			"/dev/ttyUSB5", "/dev/ttyUSB6", "/dev/ttyUSB7", "/dev/ttyUSB8", "/dev/ttyUSB9" };
 
-	//	printf("\n>> Connect Device\n");
 
 	// LOGI("  3. Monitor Devices");
 	for(i = 0; i < MAX_DEV_NUM; i++){	// Device Search and connect
@@ -47,6 +46,7 @@ int M_connectDevice(listNode_h *N)
 			if(N->tail->fd != -1 && !strcmp(N->tail->dev_name, "")) {
 				//		         LOGI("         10. Monitor fd, name check");
 				// analysing sensor packet data
+
 				if(M_checkDeviceFingerprint(N->tail))
 				{
 					//                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, " > Monitor1");
@@ -147,16 +147,10 @@ int M_checkDeviceFingerprint(listNode *Node)
 	//LOGI("         10-4. Monitor read End");
 	//	printHex(Node->q_data[0], readTotalSize);
 
-	if(M_checkDeviceCompany(Node)) {
-		M_checkSensor(Node);
-
-		//	    printLogcat2(Node->q_data[0], readTotalSize, Node->dev_name);
-		//	    LOGI("         10-5. Monitor checkSensor");
+	if(M_checkDevice(Node))
 		return true;
-	}
-	else {
+	else
 		memset(Node, '\0', sizeof(Node));
-	}
 
 
 	//	LOGI("         10-6. Monitor End");
@@ -165,125 +159,114 @@ int M_checkDeviceFingerprint(listNode *Node)
 
 
 
-int M_checkDeviceCompany(listNode *Node)
+int M_checkDevice(listNode *Node)
 {
-	// HANBACK COMPANY
-	if(Node->q_data[0][0] == HANBACK_START_BIT_FRONT &&
-			Node->q_data[0][1] == HANBACK_START_BIT_REAR) {
-		int i;
-		for(i = 0; i < MAX_BUFF_SIZE; i++) {
-			if(Node->q_data[0][i] == HANBACK_END_BIT_FRONT &&
-					Node->q_data[0][i+1] == HANBACK_END_BIT_REAR) {
+	int i = 0;
+	int find_flag = 0;
+    const char *filename = "/sdcard/Healthcare/sensors.json";
 
-				///Add information to node
-				strcpy(Node->dev_maker, "HANBACK");
-				Node->dev_maker_id[0] = HANBACK_START_BIT_FRONT;
-				Node->dev_maker_id[1] = HANBACK_START_BIT_REAR;
-				Node->dev_end_bit[0] = HANBACK_END_BIT_FRONT;
-				Node->dev_end_bit[1] = HANBACK_END_BIT_REAR;
+	size_t	root_array_cnt		= 0;
+	size_t	sensor_array_cnt	= 0;
 
-				break;
-				//printHex(Node->q_data[0],MAX_BUFF_SIZE);
-			}
-		}//end for
-		return 1;
+	JSON_Value  *root_value			= NULL;		// 제일 처음 JSON파일을 담을 변수
+	JSON_Array  *root_array			= NULL;		// JSON에서 회사별 오브젝트를 얻기 위한 배열 변수
+	JSON_Object *root_object		= NULL;		// JSON에서 회사별 오브젝트를 담을 변수
+	JSON_Array  *brand_array[2]		= {NULL};	// 회사별 고유번호가 담긴 오브젝트를 담을 변수
+	JSON_Array  *sensor_array		= NULL;		// 회사의 센서 오브젝트를 얻기 위한 배열 변수
+	JSON_Object *sensor_info_object	= NULL;		// 센서 정보가 담긴  오브젝트를 담을 변수
+	JSON_Array  *sensor_id_array	= NULL;		// 센서의 고유번호를 담을 변수
+
+	unsigned int brand_start_bit[2]	= {0};		// 회사 고유번호 Start Bit
+	unsigned int brand_end_bit[2]	= {0};		// 회사 고유번호 End Bit
+	const char	*brand_name			= NULL;		// 회사 이름
+
+	unsigned int sensor_id[2]		= {0};		// 센서 고유번호
+	const char 	*sensor_type		= NULL;		// 센서 고유번호
+	unsigned int sensor_pac_len		= 0;		// 센서 고유번호
+	unsigned int sensor_data_len	= 0;		// 센서 고유번호
+	// JSON에 사용 END
+
+    root_value = json_parse_file_with_comments(filename);
+    root_array = json_value_get_array(root_value);
+    root_array_cnt = json_array_get_count(root_array);
+
+	for(i = 0, find_flag = 0; i < root_array_cnt; i++) {
+        root_object = json_array_get_object(root_array, i);
+        brand_array[0] = json_object_get_array(json_object_get_object(root_object, "brand"), "start bit");
+        brand_array[1] = json_object_get_array(json_object_get_object(root_object, "brand"), "end bit");
+
+        brand_name			= json_object_get_string(json_object_get_object(root_object, "brand"), "name");
+        brand_start_bit[0]	= json_array_get_number(brand_array[0], 0);	// Brand Start Bit High
+        brand_start_bit[1]	= json_array_get_number(brand_array[0], 1);	// Brand Start Bit Low
+        brand_end_bit[0]	= json_array_get_number(brand_array[1], 0);	// Brand End Bit High
+        brand_end_bit[1]	= json_array_get_number(brand_array[1], 1);	// Brand End Bit Low
+
+        __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "\tNo. %d, Name: %s, SH: %02X, SL: %02X, EH: %02X, EL: %02X", i, brand_name, brand_start_bit[0], brand_start_bit[1], brand_end_bit[0], brand_end_bit[1]);
+
+    	if (Node->q_data[0][0] == brand_start_bit[0] &&
+    		Node->q_data[0][1] == brand_start_bit[1]) {
+
+    		int i;
+    		for(i = 0; i < MAX_BUFF_SIZE; i++) {
+
+    			if (Node->q_data[0][i] == brand_end_bit[0] &&
+   					Node->q_data[0][i+1] == brand_end_bit[1]) {
+
+    				///Add information to node
+    				strcpy(Node->dev_maker, brand_name);
+    				Node->dev_maker_id[0] = brand_start_bit[0];
+    				Node->dev_maker_id[1] = brand_start_bit[1];
+    				Node->dev_end_bit[0] = brand_end_bit[0];
+    				Node->dev_end_bit[1] = brand_end_bit[1];
+
+    				__android_log_print(ANDROID_LOG_INFO, LOG_TAG, "\t\tName: %s, SH: %02X, SL: %02X, EH: %02X, EL: %02X", Node->dev_maker, Node->dev_maker_id[0], Node->dev_maker_id[1], Node->dev_end_bit[0], Node->dev_end_bit[1]);
+    				find_flag = 1;
+    				break;
+    			}
+    		}
+
+    		if(find_flag)
+    			break;
+    	}
 	}
-	else
-	{
+
+	if(find_flag == 0) {
 		strcpy(Node->dev_maker, "#Unknown");
+		strcpy(Node->dev_name, "#Unknown");
 		return 0;
 	}
 
-	return 0;
-}
+	sensor_array = json_object_get_array(root_object, "sensors");
+	sensor_array_cnt = json_array_get_count(sensor_array);
+	for(i = 0, find_flag = 0; i < sensor_array_cnt; i++) {
+		sensor_info_object = json_array_get_object(sensor_array, i);
 
-void M_checkSensor(listNode *Node)
-{
-	if(!strcmp(Node->dev_maker, "HANBACK")) {
-		if( Node->q_data[0][2] == HANBACK_BLD_PRSR_FRONT &&
-				Node->q_data[0][3] == HANBACK_BLD_PRSR_REAR) {
-			strcpy(Node->dev_name, "Blood_Pressure");
+		sensor_id_array = json_object_get_array(sensor_info_object, "id");
+		sensor_id[0] = json_array_get_number(sensor_id_array, 0);
+        sensor_id[1] = json_array_get_number(sensor_id_array, 1);
 
-			Node->dev_id[0]=HANBACK_BLD_PRSR_FRONT;
-			Node->dev_id[1]=HANBACK_BLD_PRSR_REAR;
-			Node->dev_pacLen = 15;
-			Node->dev_datalen = 4;
-		}
-		else if(Node->q_data[0][2] == HANBACK_DIOXIDE_FRONT &&
-				Node->q_data[0][3] == HANBACK_DIOXIDE_REAR) {
-			strcpy(Node->dev_name, "Dioxide");
+        sensor_type = json_object_get_string(sensor_info_object, "type");
+        sensor_pac_len = json_object_get_number(sensor_info_object, "pac len");
+        sensor_data_len = json_object_get_number(sensor_info_object, "data len");
 
-			Node->dev_id[0]=HANBACK_DIOXIDE_FRONT;
-			Node->dev_id[1]=HANBACK_DIOXIDE_REAR;
-			Node->dev_pacLen = 9;
-			Node->dev_datalen = 2;
-		}
-		else if(Node->q_data[0][2] == HANBACK_DUST_FRONT &&
-				Node->q_data[0][3] == HANBACK_DUST_REAR) {
-			strcpy(Node->dev_name, "Dust");
+		if (Node->q_data[0][2] == sensor_id[0] &&
+			Node->q_data[0][3] == sensor_id[1]) {
+			strcpy(Node->dev_name, sensor_type);
 
-			Node->dev_id[0]=HANBACK_DUST_FRONT;
-			Node->dev_id[1]=HANBACK_DUST_REAR;
-			Node->dev_pacLen = 9;
-			Node->dev_datalen = 2;
-		}
-		else if(Node->q_data[0][2] == HANBACK_MONOXIDE_FRONT &&
-				Node->q_data[0][3] == HANBACK_MONOXIDE_REAR) {
-			strcpy(Node->dev_name, "Monoxide");
+			Node->dev_id[0]=sensor_id[0];
+			Node->dev_id[1]=sensor_id[1];
+			Node->dev_pacLen = sensor_pac_len;
+			Node->dev_datalen = sensor_data_len;
 
-			Node->dev_id[0]=HANBACK_MONOXIDE_FRONT;
-			Node->dev_id[1]=HANBACK_MONOXIDE_REAR;
-			Node->dev_pacLen = 9;
-			Node->dev_datalen = 2;
-		}
-		else if(Node->q_data[0][2] == HANBACK_NITROGEN_FRONT &&
-				Node->q_data[0][3] == HANBACK_NITROGEN_REAR) {
-			strcpy(Node->dev_name, "Nitrogen");
-
-			Node->dev_id[0]=HANBACK_NITROGEN_FRONT;
-			Node->dev_id[1]=HANBACK_NITROGEN_REAR;
-			Node->dev_pacLen = 9;
-			Node->dev_datalen = 2;
-		}
-		else if(Node->q_data[0][2] == HANBACK_OZONE_FRONT &&
-				Node->q_data[0][3] == HANBACK_OZONE_REAR) {
-			strcpy(Node->dev_name, "Ozone");
-
-			Node->dev_id[0]=HANBACK_OZONE_FRONT;
-			Node->dev_id[1]=HANBACK_OZONE_REAR;
-			Node->dev_pacLen = 9;
-			Node->dev_datalen = 2;
-		}
-		else if(Node->q_data[0][2] == HANBACK_THRMMTR_FRONT &&
-				Node->q_data[0][3] == HANBACK_THRMMTR_REAR) {
-			strcpy(Node->dev_name, "Thermometer");
-
-			Node->dev_id[0]=HANBACK_THRMMTR_FRONT;
-			Node->dev_id[1]=HANBACK_THRMMTR_REAR;
-			Node->dev_pacLen = 11;
-			Node->dev_datalen = 4;
-		}
-		else if(Node->q_data[0][2] == HANBACK_VOC_FRONT &&
-				Node->q_data[0][3] == HANBACK_VOC_REAR) {
-			strcpy(Node->dev_name, "VOC");
-
-			Node->dev_id[0]=HANBACK_VOC_FRONT;
-			Node->dev_id[1]=HANBACK_VOC_REAR;
-			Node->dev_pacLen = 9;
-			Node->dev_datalen = 2;
-		}
-		else if(Node->q_data[0][2] == HANBACK_WEATHER_FRONT &&
-				Node->q_data[0][3] == HANBACK_WEATHER_REAR) {
-			strcpy(Node->dev_name, "Weather");
-
-			Node->dev_id[0]=HANBACK_WEATHER_FRONT;
-			Node->dev_id[1]=HANBACK_WEATHER_REAR;
-			Node->dev_pacLen = 19;
-			Node->dev_datalen = 12;
+			find_flag = 1;
+			break;
 		}
 	}
-	else
-		strcpy(Node->dev_name, "#Unknown");
+
+	if(find_flag == 1)
+		return 1;
+
+	return 0;
 }
 
 void M_printDeviceInfo(listNode Node)

@@ -12,9 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SensorViewActivity extends Activity {
-	interface HANBACK {
-		int COMPANY			= 0x76;
-
+	interface COMPANYS {
+		int HANBACK			= 0x76;
+		int JUNE			= 0x79;
+		int NATHANIEL		= 0x82;
+	}
+	interface SENSORS {
 		int DIOXIDE_FRONT 	= 0x13;
 		int DUST_FRONT 		= 0x15;
 		int VOC_FRONT 		= 0x17;
@@ -112,16 +115,16 @@ public class SensorViewActivity extends Activity {
 			for(int j = 0; j < 5; j++) {
 				if(j == 0) {	// Photo
 					switch(sensors[i+1]) {
-					case HANBACK.DIOXIDE_FRONT:
+					case SENSORS.DIOXIDE_FRONT:
 						iv_content.setBackgroundResource(R.drawable.dioxide);
 						break;
-					case HANBACK.DUST_FRONT:
+					case SENSORS.DUST_FRONT:
 						iv_content.setBackgroundResource(R.drawable.dust);
 						break;
-					case HANBACK.VOC_FRONT:
+					case SENSORS.VOC_FRONT:
 						iv_content.setBackgroundResource(R.drawable.voc);
 						break;
-					case HANBACK.THRMMTR_FRONT:
+					case SENSORS.THRMMTR_FRONT:
 						iv_content.setBackgroundResource(R.drawable.thermometer);
 						break;
 					}
@@ -131,9 +134,17 @@ public class SensorViewActivity extends Activity {
 				}
 				else if(j == 1) {	// Brand
 					switch(sensors[i]) {
-					case HANBACK.COMPANY:
+					case COMPANYS.HANBACK:
 						tv_content[j-1] = new TextView(this);
-						tv_content[j-1].setText("HANBACK");
+						tv_content[j-1].setText("Hanback");
+						break;
+					case COMPANYS.JUNE:
+						tv_content[j-1] = new TextView(this);
+						tv_content[j-1].setText("June");
+						break;
+					case COMPANYS.NATHANIEL:
+						tv_content[j-1] = new TextView(this);
+						tv_content[j-1].setText("Nathaniel");
 						break;
 					default:
 						tv_content[j-1] = new TextView(this);
@@ -148,19 +159,19 @@ public class SensorViewActivity extends Activity {
 				}
 				else if(j == 2) {	// Type
 					switch(sensors[i+1]) {
-					case HANBACK.DIOXIDE_FRONT:
+					case SENSORS.DIOXIDE_FRONT:
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("Dioxide");
 						break;
-					case HANBACK.DUST_FRONT:
+					case SENSORS.DUST_FRONT:
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("Dust");
 						break;
-					case HANBACK.VOC_FRONT:
+					case SENSORS.VOC_FRONT:
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("VOC");
 						break;
-					case HANBACK.THRMMTR_FRONT:
+					case SENSORS.THRMMTR_FRONT:
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("Thermometer");
 						break;
@@ -173,19 +184,19 @@ public class SensorViewActivity extends Activity {
 				}
 				else if(j == 3) {	// Features
 					switch(sensors[i+1]) {
-					case HANBACK.DIOXIDE_FRONT:
+					case SENSORS.DIOXIDE_FRONT:
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("실내 공기 중의 이산화탄소 농도를 측정하며, 상황에 따른 안내가 가능합니다.");
 						break;
-					case HANBACK.DUST_FRONT:
+					case SENSORS.DUST_FRONT:
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("실내 공기 중의 먼지 농도를 측정하며, 공기의 탁한 정도를 알 수 있습니다.");
 						break;
-					case HANBACK.VOC_FRONT:
+					case SENSORS.VOC_FRONT:
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("공기 중 휘발성 농도를 측정하며, LPG 등 가스의 및 가연성 기체를 감지합니다.");
 						break;
-					case HANBACK.THRMMTR_FRONT:
+					case SENSORS.THRMMTR_FRONT:
 						tv_content[j-1] = new TextView(this);
 						tv_content[j-1].setText("적외선 센서로 인체 온도와 실내 온도를 동시에 체크가 가능합니다.");
 						break;

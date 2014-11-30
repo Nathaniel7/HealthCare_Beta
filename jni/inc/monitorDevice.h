@@ -18,6 +18,5 @@ void M_openDevice(listNode_h *);
 int  M_checkDeviceFingerprint(listNode *);
 void M_strncat_s(char *, char *, int, int );
 
-int M_checkDeviceCompany(listNode *);
-void M_checkSensor(listNode *);
+int M_checkDevice(listNode *);
 void M_printDeviceInfo(listNode);

@@ -1,24 +1,24 @@
 [
 	{
-		"brand": [118, 0],
+		"brand": {"start bit": [118, 0], "end bit": [240, 15], "name": "HANBACK"},
 		"sensors":
 		[
-			{"id": [23,2], "brand": "Hanback", "type": "VOC", "pac len": 9, "data len": 4},
-			{"id": [19,2], "brand": "Hanback", "type": "Dioxide", "pac len": 9, "data len": 4}
+			{"id": [23,2], "type": "VOC", "pac len": 9, "data len": 4},
+			{"id": [19,2], "type": "Dioxide", "pac len": 9, "data len": 4}
 		]
 	},
 	{
-		"brand": [121, 1],
+		"brand": {"start bit": [121, 1], "end bit": [240, 15], "name": "JUNE"},
 		"sensors":
 		[
-			{"id": [21,2], "brand": "Nathaniel", "type": "DUST", "pac len": 11, "data len": 4}
+			{"id": [21,2], "type": "Dust", "pac len": 11, "data len": 4}
 		]
 	},
 	{
-		"brand": [130, 4],
+		"brand": {"start bit": [130, 4], "end bit": [240, 15], "name": "NATHANIEL"},
 		"sensors":
 		[
-			{"id": [24,4], "brand": "June", "type": "THRMMT", "pac len": 11, "data len": 4}
+			{"id": [24,4], "type": "Thermometer", "pac len": 11, "data len": 4}
 		]
 	}
 ]

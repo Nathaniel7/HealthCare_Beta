@@ -75,7 +75,8 @@ obj/local/armeabi/objs/HealthCare/src/main.o: jni/src/main.c \
  jni/inc/Logcat.h \
  /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/android/log.h \
  jni/inc/com_Nathaniel_healthcare_beta_AbstractionLib.h \
- /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/jni.h
+ /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/jni.h \
+ jni/inc/parson.h
 
 jni/inc/main.h:
 
@@ -234,3 +235,5 @@ jni/inc/Logcat.h:
 jni/inc/com_Nathaniel_healthcare_beta_AbstractionLib.h:
 
 /work/android-ndk-r10/platforms/android-16/arch-arm/usr/include/jni.h:
+
+jni/inc/parson.h:
